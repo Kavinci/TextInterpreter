@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <keyword>
+    <greeting>
+      hello
+      hi
+      greetings
+    </greeting>
+    <question>
+      who
+      what
+      how
+      when
+      where
+      ?
+    </question>
+  </keyword>
+  <response>
+    <help>
+      <default>
+        Help is on it's way!
+      </default>
+    </help>
+    <character>
+      <greeting>
+        Greetings! My name is #name. Nice to meet you.
+      </greeting>
+      <question>
+        I am not sure how to answer that. Let me think on it for a bit.
+        I already said I don't know that!
+        Ok, I am done asking questions....
+      </question>
+    </character>
+  </response>
+  <var>
+    <help>
+      <count>
+        0
+      </count>
+    </help>
+    <character>
+      <count>
+        0
+      </count>
+      <name>
+        Charlie
+      </name>
+    </character>
+  </var>
+</data>
