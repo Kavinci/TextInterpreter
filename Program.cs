@@ -42,7 +42,7 @@ namespace TextInterpreter
                 }
                 
             }
-            else if (input == "exit")
+            else if (input == "exit" || input == "quit")
             {
                 output = "Exiting Application";
                 Environment.Exit(0);

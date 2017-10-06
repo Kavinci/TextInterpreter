@@ -1,50 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <data>
   <keyword>
-    <greeting>
-      hello
-      hi
-      greetings
-    </greeting>
-    <question>
-      who
-      what
-      how
-      when
-      where
-      ?
-    </question>
+    <noun val="hello" type="greeting"/>
+    <noun val="hi" type="greeting"/>
+    <noun val="greetings" type="greeting"/>
+    <noun val="help" type="help"/>
+    <verb val="place" type="place"/>
   </keyword>
+  <var type="help" val="0"/>
+  <var type="greeting" val="0"/>
+  <var type="name" val="Charlie"/>
   <response>
-    <help>
-      <default>
-        Help is on it's way!
-      </default>
+    <start>
+      This interpreter interprets natural language short sentences to give responses based on keywords. 
+      Type HELP for assistance, CLEAR to clear the screen, and EXIT or QUIT to quit the application.
+      
+    </start>
+    <help count="0">
+      Try phrasing your responses with a verb, noun, or greeting from the lists below.
+      Verbs: Place, Put, Grab, Pickup, Take
+      
+      Noun: Cup, Note,
+      
+      Greeting: Greetings, Hello, Hi
     </help>
-    <character>
-      <greeting>
-        Greetings! My name is #name. Nice to meet you.
-      </greeting>
-      <question>
-        I am not sure how to answer that. Let me think on it for a bit.
-        I already said I don't know that!
-        Ok, I am done asking questions....
-      </question>
-    </character>
+    <greeting count="0">
+      Greetings! My name is #name. Nice to meet you.
+    </greeting>
+    <question count="0">
+      I am not sure how to answer that. Let me think on it for a bit.
+    </question>
+    <question count="1">
+      I already said I don't know that!
+    </question>
+    <question count="2">
+      Ok, I am done asking questions....
+    </question>
   </response>
-  <var>
-    <help>
-      <count>
-        0
-      </count>
-    </help>
-    <character>
-      <count>
-        0
-      </count>
-      <name>
-        Charlie
-      </name>
-    </character>
-  </var>
 </data>

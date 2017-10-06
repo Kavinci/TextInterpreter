@@ -7037,7 +7037,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kent\\.nuget\\packages\\": {}
+    "C:\\Users\\kent.utterback\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -7045,14 +7045,14 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "c:\\users\\kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
+      "projectUniqueName": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
       "projectName": "TextInterpreter",
-      "projectPath": "c:\\users\\kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
-      "packagesPath": "C:\\Users\\Kent\\.nuget\\packages\\",
-      "outputPath": "c:\\users\\kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\obj\\",
+      "projectPath": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
+      "packagesPath": "C:\\Users\\kent.utterback\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Kent\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kent.utterback\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
