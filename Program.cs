@@ -9,7 +9,7 @@ namespace TextInterpreter
     class Program
     {
         static bool start = true;
-        
+        static XElement response = XElement.Load("Response.xml");
 
         static void Main(string[] args)
         {
@@ -60,7 +60,6 @@ namespace TextInterpreter
         static string Query(string queryIn)
         {
             string output = "";
-            XElement response = XElement.Load("Response.xml");
             IEnumerable<XElement> lookup = from el in response.Elements("greeting") where (string)el.Element("keywords") == queryIn select el;
             foreach(string l in lookup)
             {
