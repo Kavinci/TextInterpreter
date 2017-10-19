@@ -7,10 +7,10 @@
   <inventory type="cup" bool="false"/>
   <inventory type="note" bool="false"/>
   <inventory type="desk" bool="false"/>
-  <delimiter val=" "/>
-  <delimiter val="to"/>
-  <delimiter val="the"/>
-  <delimiter val="with"/>
+  <delimiter val=" " type="ASCII"/>
+  <delimiter val="to" type="preposition"/>
+  <delimiter val="the" type="adjective"/>
+  <delimiter val="with" type="preposition"/>
   <keywords>
     <greeting val="hello" type="greeting"/>
     <greeting val="hi" type="greeting"/>
@@ -23,6 +23,14 @@
     <verb val="grab" type="take"/>
     <verb val="pickup" type="take"/>
     <verb val="take" type="take"/>
+    <conjunction val="and" type="conjunction"/>
+    <conjunction val="but" type="conjunction"/>
+    <conjunction val="yet" type="conjunction"/>
+    <preposition val="on" type="preposition"/>
+    <preposition val="in" type="preposition"/>
+    <preposition val="with" type="preposition"/>
+    <preposition val="to" type="preposition"/>
+    <adjective val="the" type="adjective"/>
   </keywords>
 
   <responses>
@@ -40,14 +48,28 @@
       Greeting: Greetings, Hello, Hi
     </help>
     <greeting count="1">Greetings! My name is #name. Nice to meet you.</greeting>
-    <action type="take;cup"></action>
-    <action type="look;cup"></action>
-    <action type="put;cup;note" placement="on"></action>
-    <action type="put;cup;note" placement="in"></action>
-    <action type="put;cup;desk" placement="on"></action>
+    <action type="take;cup">
+      Ok, you now have a cup.
+    </action>
+    <action type="look;cup">
+      It's a cup. You put liquids in it and you drink from it.
+    </action>
+    <action type="put;cup;note" placement="on">
+      Ok, you have placed the cup on the note.
+    </action>
+    <action type="put;cup;note" placement="in">
+      You can't do that, it won't fit.
+    </action>
+    <action type="put;cup;desk" placement="on">
+      Ok, you placed the cup on the desk.
+    </action>
     <action type="put;cup;desk" placement="in"></action>
-    <action type="take;desk"></action>
-    <action type="look;desk"></action>
+    <action type="take;desk">
+      You can't do that, the desk is too heavy to carry alone.
+    </action>
+    <action type="look;desk">
+      It's a desk....
+    </action>
     <action type="put;desk;note" placement="on"></action>
     <action type="put;desk;note" placement="in"></action>
     <action type="put;desk;cup" placement="on"></action>
