@@ -7037,7 +7037,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kent\\.nuget\\packages\\": {}
+    "C:\\Users\\kent.utterback\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -7045,15 +7046,19 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
+      "projectUniqueName": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
       "projectName": "TextInterpreter",
-      "projectPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
-      "packagesPath": "C:\\Users\\Kent\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\obj\\",
+      "projectPath": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
+      "packagesPath": "C:\\Users\\kent.utterback\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kent.utterback\\OneDrive - Gradleaders, LLC\\Documents\\GitHub\\TextInterpreter\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Kent\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\kent.utterback\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -7079,7 +7084,7 @@
         "dependencies": {
           "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "1.1.2",
+            "version": "[1.1.2, )",
             "autoReferenced": true
           }
         }
