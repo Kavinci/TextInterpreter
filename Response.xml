@@ -7,10 +7,17 @@
   <inventory type="cup" bool="false"/>
   <inventory type="note" bool="false"/>
   <inventory type="desk" bool="false"/>
+  <delimeter>
+    to
+    the
+    with
+    on
+  </delimeter>
   <delimiter val=" " type="ASCII"/>
   <delimiter val="to" type="preposition"/>
   <delimiter val="the" type="adjective"/>
   <delimiter val="with" type="preposition"/>
+  <delimiter val="on" type="preposition"/>
   <keywords>
     <greeting val="hello" type="greeting"/>
     <greeting val="hi" type="greeting"/>

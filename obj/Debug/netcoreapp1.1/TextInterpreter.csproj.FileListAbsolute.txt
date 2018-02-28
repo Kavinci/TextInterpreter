@@ -8,3 +8,14 @@ c:\users\kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1
 c:\users\kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
 c:\users\kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
 c:\users\kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.deps.json
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.json
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.dev.json
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csprojResolveAssemblyReference.cache
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csproj.CoreCompileInputs.cache
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoInputs.cache
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb

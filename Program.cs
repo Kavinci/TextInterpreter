@@ -1,52 +1,78 @@
 ﻿using System;
-using System.Xml.Linq;
-using System.Xml;
 using System.Linq;
+using System.Xml.Linq;
 using System.Collections.Generic;
 
 namespace TextInterpreter
 {
     class Program
     {
-        static bool start = true;
-        static XElement response = XElement.Load("Response.xml");
+        static string status = "start";
+        static public XElement response = XElement.Load("Response.xml");
+        static public IOData Data = new IOData();
 
         static void Main(string[] args)
         {
             
-            if(start == true)
+            if(status == "start")
             {
-                Console.Clear();
-                Console.WriteLine("Charlie is here for you to talk to. Why not say Hello?");
-                Console.WriteLine(Parse(Console.ReadLine().ToLower()));
-                start = false;
+                status = "continued";
+                ScreenControl("start", Data);
             }
-            else
+            else if (status == "continued")
             {
-                Console.WriteLine(Parse(Console.ReadLine()));
+                ScreenControl("read", Data);
+                Parse(Data.toRead, Data);
             }
             Main(args);
         }
 
-        static string Parse(string input)
+        private static void ScreenControl(string renderCommand, IOData Data)
         {
+            switch (renderCommand)
+            {
+                case "start":
+                    Console.WriteLine(Data.defaultStartMessage);
+                    Data.lastOutput = Data.defaultStartMessage;
+                    break;
+                case "exit":
+                    Environment.Exit(0);
+                    break;
+                case "clear":
+                    Console.Clear();
+                    Data.toWrite = Data.lastOutput;
+                    ScreenControl("write", Data);
+                    break;
+                case "read":
+                    Data.toRead = Console.ReadLine();
+                    break;
+                case "write":
+                    Console.WriteLine(Data.toWrite);
+                    Data.lastOutput = Data.toWrite;
+                    break;
+            }
+                
+        }
+
+        private static void Parse(string input, IOData Data)
+        {
+            input = input.Trim();
+            Data.lastInput = input;
             string output = "";
             string[] delimiters = {" ", "to", "in", "on", "with"};
             string[] cleanedInput = input.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-            if(input == "clear")
+            
+            //clear screen handling
+            if(cleanedInput.Count() == 1 && cleanedInput[0] == "clear")
             {
-                Console.Clear();
-                foreach (string w in cleanedInput)
-                {
-                    output = Query(w);
-                }
-                
+                ScreenControl(cleanedInput[0], Data); 
             }
-            else if (input == "exit" || input == "quit")
+            //exit application handling
+            else if (cleanedInput.Count() == 1 && (cleanedInput[0] == "exit" || cleanedInput[0] == "quit"))
             {
-                output = "Exiting Application";
-                Environment.Exit(0);
+                ScreenControl(cleanedInput[0], Data);
             }
+            //all other inputs are assumed to be communication with application
             else
             {
                 foreach (string w in cleanedInput)
@@ -54,18 +80,22 @@ namespace TextInterpreter
                     output = Query(w);
                 }
             }
-            return output;
         }
 
         static string Query(string queryIn)
         {
             string output = "";
-            IEnumerable<XElement> lookup = from el in response.Elements("greeting") where (string)el.Element("keywords") == queryIn select el;
-            foreach(string l in lookup)
-            {
-                output = l;
-            }
+            
             return output;
         }
+    }
+
+    class IOData
+    {
+        public string defaultStartMessage = "Charlie is here for you to talk to. Why not say Hello?";
+        public string toWrite = "";
+        public string toRead = "";
+        public string lastOutput = "";
+        public string lastInput = "";
     }
 }
