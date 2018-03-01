@@ -19,3 +19,14 @@ C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpr
 C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
 C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
 C:\Users\kent.utterback\OneDrive - Gradleaders, LLC\Documents\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.deps.json
+C:\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.json
+C:\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.dev.json
+C:\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\GitHub\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csprojResolveAssemblyReference.cache
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csproj.CoreCompileInputs.cache
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoInputs.cache
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
