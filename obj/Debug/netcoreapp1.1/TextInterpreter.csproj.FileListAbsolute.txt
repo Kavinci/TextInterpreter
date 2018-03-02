@@ -30,3 +30,4 @@ C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoIn
 C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
 C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
 C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\Users\Kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoInputs.cache

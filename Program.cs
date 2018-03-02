@@ -15,11 +15,11 @@ namespace TextInterpreter
 
         static void Main(string[] args)
         {
-            Parse(Data, Res);
+            Parse();
             Main(args);
         }
 
-        private static void ScreenControl(string renderCommand, IOData Data)
+        private static void ScreenControl(string renderCommand)
         {
             switch (renderCommand)
             {
@@ -29,10 +29,10 @@ namespace TextInterpreter
                 case "clear":
                     Console.Clear();
                     Data.ToWrite = Data.LastWrite;
-                    ScreenControl("write", Data);
+                    ScreenControl("write");
                     break;
                 case "read":
-                    Data.ToRead = Console.ReadLine();
+                    Data.ToRead = Console.ReadLine().ToLower();
                     break;
                 case "write":
                     Console.WriteLine(Data.ToWrite);
@@ -42,7 +42,7 @@ namespace TextInterpreter
                 
         }
 
-        private static void Parse(IOData Data, Responses Res)
+        private static void Parse()
         {
             
 
@@ -51,14 +51,14 @@ namespace TextInterpreter
             {
                 status = "continued";
                 Data.ToWrite = Res.defaultStartMessage;
-                ScreenControl("write", Data);
-                ScreenControl("read", Data);
+                ScreenControl("write");
+                Res.sassyCount = 3;
             }
 
             //Rest of the game loop
             else
             {
-                ScreenControl("read", Data);
+                ScreenControl("read");
                 string input = Data.ToRead.Trim();
                 string[] cleanedInput;
                 Data.LastRead = input;
@@ -67,12 +67,12 @@ namespace TextInterpreter
                 //clear screen handling
                 if (cleanedInput.Count() == 1 && cleanedInput[0] == "clear")
                 {
-                    ScreenControl(cleanedInput[0], Data);
+                    ScreenControl(cleanedInput[0]);
                 }
                 //exit application handling
                 else if (cleanedInput.Count() == 1 && (cleanedInput[0] == "exit" || cleanedInput[0] == "quit"))
                 {
-                    ScreenControl(cleanedInput[0], Data);
+                    ScreenControl(cleanedInput[0]);
                 }
                 //all other inputs are assumed to be communication with application
                 else
@@ -91,10 +91,61 @@ namespace TextInterpreter
 
         static void Query(string queryIn, int count)
         {
-            switch (count)
+            switch (queryIn)
             {
-                case 1:
+                case "hi":
+                case "hello":
+                case "hey":
+                    if(Res.sassyCount <= 0)
+                    {
+                        Res.sassyMode = true;
+                    }
+                    else
+                    {
+                        Res.sassyMode = false;
+                    }
+                    if (Res.sassyMode)
+                    {
+                        Data.ToWrite = Res.sassyWarning;
+                        ScreenControl("write");
+                        Data.ToWrite = Res.sassyGreeting;
+                        ScreenControl("write");
+                        Res.sassyMode = false;
+                        Res.sassyCount = 3;
+                    }
+                    else
+                    {
+                        Data.ToWrite = Res.greeting;
+                        ScreenControl("write");
+                    }
+                    Res.sassyCount -= 1;
                     break;
+                case "help":
+                    if (Res.sassyCount <= 0)
+                    {
+                        Res.sassyMode = true;
+                    }
+                    else
+                    {
+                        Res.sassyMode = false;
+                    }
+                    if (Res.sassyMode)
+                    {
+                        Data.ToWrite = Res.sassyWarning;
+                        ScreenControl("write");
+                        Data.ToWrite = Res.sassyHelp;
+                        ScreenControl("write");
+                        Res.sassyMode = false;
+                        Res.sassyCount = 3;
+                    }
+                    else
+                    {
+                        Data.ToWrite = Res.help;
+                        ScreenControl("write");
+                    }
+                    Res.sassyCount -= 1;
+                    break;
+
             }
             
         }
@@ -135,6 +186,14 @@ namespace TextInterpreter
            string[] del = { " ", "to", "in", "on", "with" };
            return del;
         }
+
+        public string greeting = "Hello, welcome to my realm. Do you have any questions for me?";
+        public string help = "Type simple sentences to communicate with Charlie the AI.";
+        public int sassyCount { get; set; }
+        public bool sassyMode { get; set; }
+        public string sassyWarning = "SASSY MODE ACTIVATED";
+        public string sassyGreeting = "BYE FELICIA!";
+        public string sassyHelp = "Help yo damn self, I'm not yo momma!";
     }
     public class Inventory
     {
