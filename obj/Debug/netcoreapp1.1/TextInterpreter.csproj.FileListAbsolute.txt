@@ -31,3 +31,14 @@ C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.c
 C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
 C:\GitHub\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
 C:\Users\Kent\Source\Repos\TextInterpreter\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoInputs.cache
+C:\Users\Kent\Source\Repos\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.deps.json
+C:\Users\Kent\Source\Repos\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.json
+C:\Users\Kent\Source\Repos\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.runtimeconfig.dev.json
+C:\Users\Kent\Source\Repos\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\Users\Kent\Source\Repos\TextInterpreter\bin\Debug\netcoreapp1.1\TextInterpreter.pdb
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csprojResolveAssemblyReference.cache
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.csproj.CoreCompileInputs.cache
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfoInputs.cache
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.AssemblyInfo.cs
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.dll
+C:\Users\Kent\Source\Repos\TextInterpreter\obj\Debug\netcoreapp1.1\TextInterpreter.pdb
