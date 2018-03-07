@@ -7045,11 +7045,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
+      "projectUniqueName": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter.csproj",
       "projectName": "TextInterpreter",
-      "projectPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\TextInterpreter.csproj",
+      "projectPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter.csproj",
       "packagesPath": "C:\\Users\\Kent\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\TextInterpreter\\obj\\",
+      "outputPath": "C:\\Users\\Kent\\Source\\Repos\\TextInterpreter\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Kent\\AppData\\Roaming\\NuGet\\NuGet.Config",
