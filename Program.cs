@@ -142,6 +142,7 @@ namespace TextInterpreter
             public string[] delimiters = { " ", "to", "in", "on", "with", "at", ".", ",", ";", "\"", ":"};
             public string[] actions = { "take", "put", "hit", "use", "throw", "look", "go", "drop"};
             public string[] objects = { "cup", "desk", "note", "charlie", "chair"};
+            public bool Interact { get; set; }
             public void IsGreeting(string value)
             {
                 foreach(string x in greetings)
