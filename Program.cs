@@ -11,11 +11,11 @@ namespace TextInterpreter
         static string newline = "\r\n";
         //static XElement response = XElement.Load("Response.xml");
         static IOData Data = new IOData();
-        static Locations Loc = new Locations();
         static Actions Act = new Actions();
         static Responses Res = new Responses();
-        static PlayerCharacter PC = new PlayerCharacter(null, null, null, "office");
-        static Interactions Interaction = new Interactions(); 
+        static PlayerCharacter PC = new PlayerCharacter(null, null, null, "hallway");
+        static Interactions Interaction = new Interactions();
+        static Locations Loc = new Locations();
         static Objects obj = new Objects();
         
         //Main game loop
@@ -59,7 +59,7 @@ namespace TextInterpreter
                 
         }
 
-        //
+        //Handle start and continue logic
         private static void GameLogic()
         {
             //start of each loop begins with a read from user 
@@ -88,10 +88,18 @@ namespace TextInterpreter
                 Interaction.Response = null;
                 Interaction.Interact = false;
                 //handle the input
-                foreach (string query in cleanedInput)
+                if(Data.ToRead == null || Data.ToRead == "")
                 {
-                    Query(query, Array.IndexOf(cleanedInput, query));
+                    Data.ToWrite = Loc.GetDescription(PC.Location);
+                    Data.RenderCommand = "write";
                 }
+                else
+                {
+                    foreach (string query in cleanedInput)
+                    {
+                        Query(query, Array.IndexOf(cleanedInput, query));
+                    }
+                }  
             }
             ScreenControl(Data.RenderCommand);
         }
@@ -331,7 +339,7 @@ namespace TextInterpreter
                 int i = 0;
                 foreach (string x in PC.AllItems())
                 {
-                    if (x != null && i == 0)
+                    if (x != null)
                     {
                         switch (i)
                         {
@@ -464,7 +472,7 @@ namespace TextInterpreter
                         Office.Contains.Add(item);
                         break;
                     case "hallway":
-                        Hallway.Contains.Append(item);
+                        Hallway.Contains.Add(item);
                         break;
                 }
             }
@@ -507,8 +515,7 @@ namespace TextInterpreter
             }
             public string[] AllLocations()
             {
-                string[] all = {"office", "hallway", "n", "ne", "nw", "s", "se", "sw", "e", "w", "north", "west", "east", "south", "northwest", "northeast", "southeast",
-                    "southwest"};
+                string[] all = {"office", "hallway", "n", "ne", "nw", "s", "se", "sw", "e", "w", "north", "west", "east", "south", "northwest", "northeast", "southeast", "southwest"};
                 return all;
             }
             public class OfficeObject
@@ -536,41 +543,41 @@ namespace TextInterpreter
                 private string GoNorthWest = null;
                 public string[] Pathways()
                 {
-                    string[] possible = { };
+                    List<string> possible = new List<string>();
                     
                     if (GoNorth != null)
                     {
-                        possible.Append(GoNorth);
+                        possible.Add(GoNorth);
                     }
                     if (GoNorthEast != null)
                     {
-                        possible.Append(GoNorthEast);
+                        possible.Add(GoNorthEast);
                     }
                     if (GoEast != null)
                     {
-                        possible.Append(GoEast);
+                        possible.Add(GoEast);
                     }
                     if (GoSouthEast != null)
                     {
-                        possible.Append(GoSouthEast);
+                        possible.Add(GoSouthEast);
                     }
                     if (GoSouth != null)
                     {
-                        possible.Append(GoSouth);
+                        possible.Add(GoSouth);
                     }
                     if (GoSouthWest != null)
                     {
-                        possible.Append(GoSouthWest);
+                        possible.Add(GoSouthWest);
                     }
                     if (GoWest != null)
                     {
-                        possible.Append(GoWest);
+                        possible.Add(GoWest);
                     }
                     if (GoNorthWest != null)
                     {
-                        possible.Append(GoNorthWest);
+                        possible.Add(GoNorthWest);
                     }
-                    return possible;
+                    return possible.ToArray();
                 }
             }
             public class HallwayObject
@@ -598,41 +605,41 @@ namespace TextInterpreter
                 private string GoNorthWest = null;
                 public string[] Pathways()
                 {
-                    string[] possible = { };
+                    List<string> possible = new List<string>();
 
                     if (GoNorth != null)
                     {
-                        possible.Append(GoNorth);
+                        possible.Add(GoNorth);
                     }
                     if (GoNorthEast != null)
                     {
-                        possible.Append(GoNorthEast);
+                        possible.Add(GoNorthEast);
                     }
                     if (GoEast != null)
                     {
-                        possible.Append(GoEast);
+                        possible.Add(GoEast);
                     }
                     if (GoSouthEast != null)
                     {
-                        possible.Append(GoSouthEast);
+                        possible.Add(GoSouthEast);
                     }
                     if (GoSouth != null)
                     {
-                        possible.Append(GoSouth);
+                        possible.Add(GoSouth);
                     }
                     if (GoSouthWest != null)
                     {
-                        possible.Append(GoSouthWest);
+                        possible.Add(GoSouthWest);
                     }
                     if (GoWest != null)
                     {
-                        possible.Append(GoWest);
+                        possible.Add(GoWest);
                     }
                     if (GoNorthWest != null)
                     {
-                        possible.Append(GoNorthWest);
+                        possible.Add(GoNorthWest);
                     }
-                    return possible;
+                    return possible.ToArray();
                 }
             }
         }
