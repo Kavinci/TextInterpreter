@@ -8,18 +8,16 @@ namespace TextInterpreter
     class Program
     {
         static string status = "start";
+        static string newline = "\r\n";
         //static XElement response = XElement.Load("Response.xml");
         static IOData Data = new IOData();
         static Locations Loc = new Locations();
         static Actions Act = new Actions();
         static Responses Res = new Responses();
-        static PlayerCharacter PC = new PlayerCharacter(null, null, null);
-        static Interactions Interaction = new Interactions();
-        static Locations.Office O = new Locations.Office();
-        static Locations.Hallway H = new Locations.Hallway();
+        static PlayerCharacter PC = new PlayerCharacter(null, null, null, "office");
+        static Interactions Interaction = new Interactions(); 
         static Objects obj = new Objects();
         
-
         //Main game loop
         static void Main(string[] args)
         {
@@ -71,10 +69,10 @@ namespace TextInterpreter
             {
                 status = "continued";
                 //TODO: load saved games to be handled here
-                Data.ToWrite = Res.defaultStartMessage;
+                Data.ToWrite = Loc.GetDescription(PC.Location);
                 Data.RenderCommand = "write";
                 Res.sassyGreetingCount = 3;
-                Res.sassyHelpCount = 3;
+                Interaction.sassyHelpCount = 3;
             }
             //Rest of the game loop
             else
@@ -87,8 +85,8 @@ namespace TextInterpreter
                 Interaction.Object1 = null;
                 Interaction.Object2 = null;
                 Interaction.Location = null;
+                Interaction.Response = null;
                 Interaction.Interact = false;
-                Interaction.Greeting = false;
                 //handle the input
                 foreach (string query in cleanedInput)
                 {
@@ -137,96 +135,126 @@ namespace TextInterpreter
 
         class Interactions
         {
+            public bool Interact { get; set; }
             public string Action { get; set; }
             public string Object1 { get; set; }
             public string Object2 { get; set; }
             public string Location { get; set; }
-            public bool Greeting { get; set; }
-            public string[] greetings = { "hi", "hello", "hey", "howdy", "hola", "sup", "greetings"};
+            public string Response { get; set; }
+            
             public string[] delimiters = { " ", "to", "in", "on", "with", "at", ".", ",", ";", "\"", ":"};
             public string[] actions = { "take", "put", "hit", "use", "throw", "look", "go", "drop"};
-            public string[] objects = { "cup", "desk", "note", "charlie", "chair"};
-            public bool Interact { get; set; }
-            public void IsGreeting(string value)
-            {
-                foreach(string x in greetings)
-                {
-                    if(x == value)
-                    {
-                        Greeting = true;
-                    }
-                }  
-            }
+            public int sassyHelpCount { get; set; }
+            private string sassyWarning = "SASSY MODE ACTIVATED";
+            //If the help word is given, display help text
             public void IsHelp(string value)
             {
                 if(value == "help")
                 {
-                    if (Res.sassyHelpCount <= 0)
+                    if (sassyHelpCount <= 0)
                     {
-                        Res.sassyMode = true;
+                        Data.ToWrite = Interaction.sassyWarning + newline + "Help yo damn self, I'm not yo momma!";
+                        sassyHelpCount = 3;
                     }
                     else
                     {
-                        Res.sassyMode = false;
+                        Data.ToWrite = "Type simple sentences to communicate with Charlie or interact with objects in the room." + newline +
+                             "Example: \"Look at Desk\" or \"Hello Charlie!\"";
+                        sassyHelpCount -= 1;
                     }
-                    if (Res.sassyMode)
-                    {
-                        Data.ToWrite = Res.sassyWarning + "\r\n" + Res.sassyHelp;
-                        Res.sassyMode = false;
-                        Res.sassyHelpCount = 4;
-                    }
-                    else
-                    {
-                        Data.ToWrite = Res.help;
-                    }
-                    Res.sassyHelpCount -= 1;
                     Data.RenderCommand = "write";
                 }  
             }
+            //If the word is a recognized action, set it
             public void IsAction(string value)
             {
-                foreach(string x in actions)
+                if (actions.Contains(value))
                 {
-                    if(value == x)
-                    {
-                        Action = x;
-                    }
+                    Action = value;
                 }
+                else if(value == "inventory" || value == "i")
+                {
+                    Action = "inventory";
+                }    
                 if(Action != null)
                 {
                     switch (Action)
                     {
                         case "take":
-                            Act.Take(Object1);
+                            if(Object1 != null)
+                            {
+                                Act.Take(Object1);
+                            }
+                            else if (PC.AllItems().Contains(value))
+                            {
+                                Act.Take(value);
+                            }
                             break;
                         case "put":
-                            Act.Put(Object1, Object2);
+                            if(Object1 != null && Object2 != null)
+                            {
+                                Act.Put(Object1, Object2);
+                            }
+                            else if(Object1 != null && Object2 == null)
+                            {
+                                Data.ToWrite = "Where would you like me to put the " + Object1 + "?";
+                                Data.RenderCommand = "write";
+                            }
                             break;
                         case "look":
-                            Act.Look(Object1);
+                            if(Object1 != null)
+                            {
+                                Act.Look(Object1);
+                            }
+                            else if(Location != null)
+                            {
+                                Act.Look(Location);
+                            }
                             break;
                         case "use":
-                            Act.Use(Object1, Object2);
+                            if(Object1 != null && Object2 != null)
+                            {
+                                Act.Use(Object1, Object2);
+                            }
+                            else if(Object1 != null && Object2 == null)
+                            {
+                                Data.ToWrite = "What would you like me to use the " + Object1 + " on?";
+                                Data.RenderCommand = "write";
+                            }
                             break;
                         case "go":
-                            Act.Go(Location);
+                            if(Location != null)
+                            {
+                                Act.Go(Location);
+                            }
                             break;
                         case "drop":
-                            Act.Take(Object1);
+                            if (Object1 != null)
+                            {
+                                Act.Drop(Object1);
+                            }
+                            else if (PC.AllItems().Contains(value))
+                            {
+                                Act.Drop(value);
+                            }
+                            else if(!Loc.GetContents(PC.Location).Contains(value) && obj.AllObjects().Contains(value))
+                            {
+                                Data.ToWrite = "That item is nowhere to be found.";
+                                Data.RenderCommand = "write";
+                            }
                             break;
                         case "inventory":
-                        case "i":
                             Act.GetInventory();
                             break;
                     }
                 }
             }
-            //If the word is a recognized object, add it.
+            //If the word is a recognized object, set it
             public void IsObject(string value)
             {
                 if(Object1 == null && Object2 == null)
                 {
-                    foreach (string x in objects)
+                    foreach (string x in Loc.GetContents(PC.Location))
                     {
                         if (value == x)
                         {
@@ -236,7 +264,7 @@ namespace TextInterpreter
                 }
                 else if(Object1 != null && Object2 == null)
                 {
-                    foreach (string x in objects)
+                    foreach (string x in Loc.GetContents(PC.Location))
                     {
                         if (value == x)
                         {
@@ -251,17 +279,25 @@ namespace TextInterpreter
                 }
                 
             }
+            //If the word is a recognized location, set it
             public void IsLocation(string value)
             {
                 if(Location == null)
                 {
-                    foreach (string x in Loc.AllLocations())
+                    if(value == "around")
                     {
-                        if (value == x)
-                        {
-                            Location = x;
-                        }
+                        Location = PC.Location;
                     }
+                    else
+                    {
+                        foreach (string x in Loc.AllLocations())
+                        {
+                            if (value == x)
+                            {
+                                Location = x;
+                            }
+                        }
+                    }  
                 }
                 else
                 {
@@ -273,33 +309,14 @@ namespace TextInterpreter
             //Detect whether a response has been selected and decide how to respond to the user
             public void IsResponse(string value)
             {
-                IsGreeting(value);
-                if (Greeting)
+                Res.IsResponse(value);
+                if(Response != null)
                 {
-                    if (Res.sassyGreetingCount <= 0)
-                    {
-                        Res.sassyMode = true;
-                    }
-                    else
-                    {
-                        Res.sassyMode = false;
-                    }
-                    if (Res.sassyMode)
-                    {
-                        Data.ToWrite = Res.sassyWarning + "\r\n" + Res.sassyGreeting;
-                        Res.sassyMode = false;
-                        Res.sassyGreetingCount = 4;
-                    }
-                    else
-                    {
-                        Data.ToWrite = Res.greeting;
-
-                    }
-                    Res.sassyGreetingCount -= 1;
+                    Data.ToWrite = Response;
                     Data.RenderCommand = "write";
                 }
-                
             }
+            //It the exit command is given
             public void IsExit(string value)
             {
                 //to do save on exit
@@ -314,7 +331,7 @@ namespace TextInterpreter
                 int i = 0;
                 foreach (string x in PC.AllItems())
                 {
-                    if(x != null && i == 0)
+                    if (x != null && i == 0)
                     {
                         switch (i)
                         {
@@ -336,17 +353,17 @@ namespace TextInterpreter
                                 Data.RenderCommand = "write";
                                 i++;
                                 break;
-                        } 
+                        }
                     }
                 }
-                if(inventory == "")
+                if (inventory == "")
                 {
                     Data.ToWrite = "You have no items in your inventory.";
                     Data.RenderCommand = "write";
                 }
                 else
                 {
-                    
+
                 }
             }
             public void Take(string item)
@@ -363,28 +380,27 @@ namespace TextInterpreter
             }
             public void Look(string item)
             {
-                foreach(string x in obj.AllObjects())
+                if (Loc.GetContents(PC.Location).Contains(item))
                 {
-                    if(item == x)
-                    {
-                        Data.ToWrite = obj.GetDescription(item);
-                        Data.RenderCommand = "write";
-                    }
+                    Data.ToWrite = obj.GetDescription(item);
+                    Data.RenderCommand = "write";
                 }
-                foreach(string x in Loc.AllLocations())
+                else if(PC.AllItems().Contains(item))
                 {
-                    if (item == x)
-                    {
-                        Data.ToWrite = Loc.GetDescription(item);
-                        Data.RenderCommand = "write";
-                    }
+                    Data.ToWrite = obj.GetDescription(item);
+                    Data.RenderCommand = "write";
+                }
+                else
+                {
+                    Data.ToWrite = "That item is nowhere to be found.";
+                    Data.RenderCommand = "write";
                 }
             }
             public void Go(string location)
             {
                 if(location != null && location != PC.Location)
                 {
-                    foreach(string x in Loc.Directions)
+                    foreach(string x in Loc.Directions(PC.Location))
                     {
                         if(location == x)
                         {
@@ -392,11 +408,12 @@ namespace TextInterpreter
                             Data.RenderCommand = "write";
                         }
                     }
-                    foreach(string x in Loc.AllLocations())
+                    foreach(string x in Loc.LocationObjects())
                     {
                         if(location == x)
                         {
-                            Data.ToWrite = "You went to the " + x;
+                            PC.Location = x;
+                            Data.ToWrite = Loc.GetDescription(PC.Location);
                             Data.RenderCommand = "write";
                         }
                     }
@@ -410,181 +427,210 @@ namespace TextInterpreter
         //Location object definition
         class Locations
         {
+            static OfficeObject Office = new OfficeObject();
+            static HallwayObject Hallway = new HallwayObject();
+            //Returns the description of a location object
             public string GetDescription(string location)
             {
-                string description = "";
                 switch (location)
                 {
                     case "office":
-                        description = O.Description;
+                        return Office.Description;
+                    case "hallway":
+                        return Hallway.Description; 
+                }
+                return "Error in Location.GetDescription";
+            }
+            //Returns the contents of a location object
+            public string[] GetContents(string location)
+            {
+                string[] contents = { };
+                switch (location)
+                {
+                    case "office":
+                        contents = Office.Contains.ToArray();
                         break;
                     case "hallway":
-                        description = H.Description;
-                        break; 
+                        contents = Hallway.Contains.ToArray();
+                        break;
                 }
-                return description;
+                return contents;
             }
-            public string[] Directions = { "n", "ne", "nw", "s", "se", "sw", "e", "w", "north", "west", "east", "south" };
+            public void AddContents(string location, string item)
+            {
+                switch (location)
+                {
+                    case "office":
+                        Office.Contains.Add(item);
+                        break;
+                    case "hallway":
+                        Hallway.Contains.Append(item);
+                        break;
+                }
+            }
+            public void RemoveContents(string location, string item)
+            {
+                switch (location)
+                {
+                    case "office":
+                        if(Office.Contains.Contains(item))
+                        {
+                            Office.Contains.Remove(item);
+                        }
+                        break;
+                    case "hallway":
+                        if (Hallway.Contains.Contains(item))
+                        {
+                            Hallway.Contains.Remove(item);
+                        }
+                        break;
+                }
+            }
+            public string[] LocationObjects()
+            {
+                string[] LocationObjects = { "hallway", "office" };
+                return LocationObjects;
+            }
+            public string[] Directions(string currentLocation)
+            {
+                string[] pathways = { };
+                switch (currentLocation)
+                {
+                    case "office":
+                        pathways = Office.Pathways();
+                        break;
+                    case "hallway":
+                        pathways = Hallway.Pathways();
+                        break;
+                }
+                return pathways;
+            }
             public string[] AllLocations()
             {
                 string[] all = {"office", "hallway", "n", "ne", "nw", "s", "se", "sw", "e", "w", "north", "west", "east", "south", "northwest", "northeast", "southeast",
-                    "southwest", };
+                    "southwest"};
                 return all;
             }
-            public class Office
+            public class OfficeObject
             {
-                public Office()
+                public OfficeObject()
                 {
-                    string[] items = { };
-                    foreach(string x in Objects)
+                    foreach (string x in Objects)
                     {
-                        items.Append(x);
+                        Contains.Add(x);
                     }
-                    Contains = items;
                 }
                 public string Name = "office";
-                public string[] Contains { get; set; }//Objects collected during the game
+                public List<string> Contains { get; set; } //Objects collected during the game
                 public string[] Objects = { "desk", "note", "cup", "chair", "charlie", "pen" };//Objects to start the game with
-                public string Description = "You are in a small room. In front of you is a plain looking wooden desk. \r\n" +
+                public string Description = "You are in a small room. In front of you is a plain looking wooden desk." + newline +
                     "Charlie sits at the desk. Feel free to say hello or to look around the room.";
                 //Navigation data
-                public string GoNorth = null;
-                public string GoNorthEast = null;
-                public string GoEast = null;
-                public string GoSouthEast = null;
-                public string GoSouth = null;
-                public string GoSouthWest = null;
-                public string GoWest = "hallway";
-                public string GoNorthWest = null;
-                public string[,] Pathways()
+                private string GoNorth = null;
+                private string GoNorthEast = null;
+                private string GoEast = null;
+                private string GoSouthEast = null;
+                private string GoSouth = null;
+                private string GoSouthWest = null;
+                private string GoWest = "hallway";
+                private string GoNorthWest = null;
+                public string[] Pathways()
                 {
-                    string[,] possible = new string[8, 2];
-                    possible[1, 0] = "north";
-                    possible[2, 0] = "northeast";
-                    possible[3, 0] = "east";
-                    possible[4, 0] = "southeast";
-                    possible[5, 0] = "south";
-                    possible[6, 0] = "southwest";
-                    possible[7, 0] = "west";
-                    possible[8, 0] = "northwest";
-                    possible[1, 1] = null;
-                    possible[2, 1] = null;
-                    possible[3, 1] = null;
-                    possible[4, 1] = null;
-                    possible[5, 1] = null;
-                    possible[6, 1] = null;
-                    possible[7, 1] = null;
-                    possible[8, 1] = null;
+                    string[] possible = { };
+                    
                     if (GoNorth != null)
                     {
-                        possible[1, 1] = GoNorth;
+                        possible.Append(GoNorth);
                     }
                     if (GoNorthEast != null)
                     {
-                        possible[2, 1] = GoNorthEast;
+                        possible.Append(GoNorthEast);
                     }
                     if (GoEast != null)
                     {
-                        possible[3, 1] = GoEast;
+                        possible.Append(GoEast);
                     }
                     if (GoSouthEast != null)
                     {
-                        possible[4, 1] = GoSouthEast;
+                        possible.Append(GoSouthEast);
                     }
                     if (GoSouth != null)
                     {
-                        possible[5, 1] = GoSouth;
+                        possible.Append(GoSouth);
                     }
                     if (GoSouthWest != null)
                     {
-                        possible[6, 1] = GoSouthWest;
+                        possible.Append(GoSouthWest);
                     }
                     if (GoWest != null)
                     {
-                        possible[7, 1] = GoWest;
+                        possible.Append(GoWest);
                     }
                     if (GoNorthWest != null)
                     {
-                        possible[8, 1] = GoNorthWest;
+                        possible.Append(GoNorthWest);
                     }
                     return possible;
                 }
             }
-            public class Hallway
+            public class HallwayObject
             {
-                public Hallway()
+                public HallwayObject()
                 {
-                    string[] items = { };
                     foreach (string x in Objects)
                     {
-                        items.Append(x);
+                        Contains.Add(x);
                     }
-                    Contains = items;
                 }
                 public string Name = "hallway";
-                public string[] Contains { get; set; }//Objects collected during the game
-                public string[] Objects = { };//Objects to start the game with
-                public string Description = "It's a hallway. It runs North to South and seems to lead to nowhere. \r\n Behind" +
-                    "you to the East is a door with the name Charlie Chaplon in vinyl lettering.";
+                public List<string> Contains { get; set; } //Objects collected during the game
+                public string[] Objects = { }; //Objects to start the game with
+                public string Description = "It's a hallway. It runs North to South and seems to lead to nowhere." + newline +
+                    "Behind you to the East is a door with the name Charlie Chaplon in vinyl lettering.";
                 //Navigation data
-                public string GoNorth = null;
-                public string GoNorthEast = null;
-                public string GoEast = "office";
-                public string GoSouthEast = null;
-                public string GoSouth = null;
-                public string GoSouthWest = null;
-                public string GoWest = null;
-                public string GoNorthWest = null;
-                public string[,] Pathways()
+                private string GoNorth = null;
+                private string GoNorthEast = null;
+                private string GoEast = "office";
+                private string GoSouthEast = null;
+                private string GoSouth = null;
+                private string GoSouthWest = null;
+                private string GoWest = null;
+                private string GoNorthWest = null;
+                public string[] Pathways()
                 {
-                    string[,] possible = new string[8, 2];
-                    possible[1, 0] = "north";
-                    possible[2, 0] = "northeast";
-                    possible[3, 0] = "east";
-                    possible[4, 0] = "southeast";
-                    possible[5, 0] = "south";
-                    possible[6, 0] = "southwest";
-                    possible[7, 0] = "west";
-                    possible[8, 0] = "northwest";
-                    possible[1, 1] = null;
-                    possible[2, 1] = null;
-                    possible[3, 1] = null;
-                    possible[4, 1] = null;
-                    possible[5, 1] = null;
-                    possible[6, 1] = null;
-                    possible[7, 1] = null;
-                    possible[8, 1] = null;
+                    string[] possible = { };
+
                     if (GoNorth != null)
                     {
-                        possible[1, 1] = GoNorth;
+                        possible.Append(GoNorth);
                     }
                     if (GoNorthEast != null)
                     {
-                        possible[2, 1] = GoNorthEast;
+                        possible.Append(GoNorthEast);
                     }
                     if (GoEast != null)
                     {
-                        possible[3, 1] = GoEast;
+                        possible.Append(GoEast);
                     }
                     if (GoSouthEast != null)
                     {
-                        possible[4, 1] = GoSouthEast;
+                        possible.Append(GoSouthEast);
                     }
                     if (GoSouth != null)
                     {
-                        possible[5, 1] = GoSouth;
+                        possible.Append(GoSouth);
                     }
                     if (GoSouthWest != null)
                     {
-                        possible[6, 1] = GoSouthWest;
+                        possible.Append(GoSouthWest);
                     }
                     if (GoWest != null)
                     {
-                        possible[7, 1] = GoWest;
+                        possible.Append(GoWest);
                     }
                     if (GoNorthWest != null)
                     {
-                        possible[8, 1] = GoNorthWest;
+                        possible.Append(GoNorthWest);
                     }
                     return possible;
                 }
@@ -599,6 +645,7 @@ namespace TextInterpreter
             static Desk desk = new Desk();
             static Note note = new Note();
             static Pen pen = new Pen();
+            //Return the descriptions of objects
             public string GetDescription(string item)
             {
                 string description = "";
@@ -687,49 +734,65 @@ namespace TextInterpreter
                 public string Description = "A pen of blue ink, good for writing notes.";
             }
         }
+        //Response Object
         class Responses
         {
-            public string defaultStartMessage = "You are in a small room. In front of you is a plain looking wooden desk. \r\n" +
-                "Charlie sits at the desk. Feel free to say hello or look around the room.";
-            public string greeting = "Hello, welcome to my office. How may I help you?";
-            public string help = "Type simple sentences to communicate with Charlie or interact with objects in the room. \r\n" +
-                "Example: \"Look at Desk\" or \"Hello Charlie!\"";
+            public bool Greeting { get; set; }
+            public string[] greetings = { "hi", "hello", "hey", "howdy", "hola", "sup", "greetings" };
             public string sassyWarning = "SASSY MODE ACTIVATED";
-            public string sassyGreeting = "Charlie: BYE FELICIA!";
-            public string sassyHelp = "Help yo damn self, I'm not yo momma!";
-            public int sassyHelpCount { get; set; }
+
             public int sassyGreetingCount { get; set; }
             public bool sassyMode { get; set; }
-            private string SpeechType { get; set; }
-        
-            public void IsSpeechType(string type)
+            public void IsResponse(string input)
             {
-                switch (type)
+                IsGreeting(input);
+                
+
+            }
+            public void IsGreeting(string input)
+            {
+                foreach (string x in greetings)
                 {
-                    case "Noun":
+                    if (x == input)
+                    {
+                        if (Res.sassyGreetingCount <= 0)
+                        {
+                            Interaction.Response = Greetings(1);
+                        }
+                        else
+                        {
+                            Interaction.Response = Greetings(0);
+                        }  
+                    }
+                }
+            }
+            public string Greetings(int x)
+            {
+                string res = "";
+                switch (x)
+                {
+                    case 0:
+                        res = "Hello, welcome to my office. How may I help you?";
+                        Res.sassyGreetingCount -= 1;
                         break;
-                    case "Verb":
-                        break;
-                    case "Conjunction":
-                        break;
-                    case "Preposition":
-                        break;
-                    case "Adjective":
+                    case 1:
+                        res = sassyWarning + newline + "Charlie: BYE FELICIA!";
+                        Res.sassyGreetingCount = 3;
                         break;
                 }
-                
+                return res;
             }
-       
         }
+        //Player Character object
         class PlayerCharacter
         {
         //Object constructor
-            public PlayerCharacter(string item1, string item2, string item3)
+            public PlayerCharacter(string item1, string item2, string item3, string startLocation)
             {
                 Slot1 = item1;
                 Slot2 = item2;
                 Slot3 = item3;
-                Location = "office";
+                Location = startLocation;
             }
 
             //Read and write individual inventory slots
@@ -779,44 +842,44 @@ namespace TextInterpreter
             public void AddItem(string item)
             {
                 bool itemExists = false;
-                foreach(string x in AllItems())
+                if (AllItems().Contains(item))
                 {
-                    if(x == item)
-                    {
-                        Data.ToWrite = "That item already exists in your inventory.";
-                        Data.RenderCommand = "write";
-                        itemExists = true;
-                    }
-                }
+                    Data.ToWrite = "That item already exists in your inventory.";
+                    Data.RenderCommand = "write";
+                    itemExists = true;
+                }   
                 if (!itemExists)
                 {
-                    foreach(string x in AllItems())
+                    if(Slot1 == null)
                     {
-                        if(x == null)
+                        Slot1 = item;
+                        Data.ToWrite = item + " has been added to your inventory.";
+                        Data.RenderCommand = "write";
+                        Loc.RemoveContents(PC.Location, item);
+                    }
+                    else
+                    {
+                        if(Slot2 == null)
                         {
-                            switch(Array.IndexOf(AllItems(), x))
-                            {
-                                case 0:
-                                    Slot1 = item;
-                                    Data.ToWrite = item + " has been added to your inventory.";
-                                    Data.RenderCommand = "write";
-                                    continue;
-                                case 1:
-                                    Slot2 = item;
-                                    Data.ToWrite = item + " has been added to your inventory.";
-                                    Data.RenderCommand = "write";
-                                    continue;
-                                case 2:
-                                    Slot3 =item;
-                                    Data.ToWrite = item + " has been added to your inventory.";
-                                    Data.RenderCommand = "write";
-                                    continue;
-                            }
+                            Slot2 = item;
+                            Data.ToWrite = item + " has been added to your inventory.";
+                            Data.RenderCommand = "write";
+                            Loc.RemoveContents(PC.Location, item);
                         }
                         else
                         {
-                            Data.ToWrite = "Your inventory is full. Please drop an item to pick up this item.";
-                            Data.RenderCommand = "write";
+                            if(Slot3 == null)
+                            {
+                                Slot3 = item;
+                                Data.ToWrite = item + " has been added to your inventory.";
+                                Data.RenderCommand = "write";
+                                Loc.RemoveContents(PC.Location, item);
+                            }
+                            else
+                            {
+                                Data.ToWrite = "Your inventory is full. Please drop an item to pick up this item.";
+                                Data.RenderCommand = "write";
+                            }
                         }
                     }
                 }
@@ -825,36 +888,36 @@ namespace TextInterpreter
             public void RemoveItem(string item)
             {
                 bool itemRemoved = false;
-                foreach(string x in AllItems())
+                if (AllItems().Contains(item))
                 {
-                    if(x == item)
+                    if (Slot1 == item)
                     {
-                        switch(Array.IndexOf(AllItems(), x))
-                        {
-                            case 0:
-                                Slot1 = null;
-                                itemRemoved = true;
-                                Data.ToWrite = item + " has been dropped.";
-                                Data.RenderCommand = "write";
-                                break;
-                            case 1:
-                                Slot1 = null;
-                                itemRemoved = true;
-                                Data.ToWrite = item + " has been dropped.";
-                                Data.RenderCommand = "write";
-                                break;
-                            case 2:
-                                Slot1 = null;
-                                itemRemoved = true;
-                                Data.ToWrite = item + " has been dropped.";
-                                Data.RenderCommand = "write";
-                                break;
-                        }
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(PC.Location, item);
+                        Slot1 = null;
+                        itemRemoved = true;
+                    }
+                    if (Slot2 == item)
+                    {
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(PC.Location, item);
+                        Slot2 = null;
+                        itemRemoved = true;
+                    }
+                    if (Slot3 == item)
+                    {
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(PC.Location, item);
+                        Slot3 = null;
+                        itemRemoved = true;
                     }
                 }
                 if (!itemRemoved)
                 {
-                    Data.ToWrite = "You are not carrying a " + item;
+                    Data.ToWrite = "You are not carrying that item.";
                     Data.RenderCommand = "write";
                 }
             }
