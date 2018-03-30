@@ -2426,7 +2426,7 @@
       ]
     },
     "Microsoft.NETCore.App/1.1.2": {
-      "sha512": "TUPK1xhef7WcbsIkhfZOz6J7DrG5aebjVRBswPfHe90eDhfnlWHaLiI1OtMB2O78bf5d37WO6ge+9nel2keKkA==",
+      "sha512": "fcN0Ob6rjY7Zu0770cA5l9wRJvj7+ltJPPdryUidejkkhao+y2AYrtezBTlP9nCSFXLmYR9BtaknORT17x8reA==",
       "type": "package",
       "path": "microsoft.netcore.app/1.1.2",
       "files": [
@@ -2450,7 +2450,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetHostPolicy/1.1.2": {
-      "sha512": "fD2UWfXXY+FgPWVqvpNo2/d7b/LHYl1/aepVimYYkVsuF4CczP8hgCJIlKiUbWF/d98xCMtz7bbuv6LkGfdfeQ==",
+      "sha512": "nes7MaBG1zWz44m+zR4SDiOVmpCFiY49BcJGRaIO0TqjsLZmuUQVXEGcNZFlme95dlaki9QYJr4FK5NKNlPA6Q==",
       "type": "package",
       "path": "microsoft.netcore.dotnethostpolicy/1.1.2",
       "files": [
@@ -7037,26 +7037,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kent.utterback\\.nuget\\packages\\": {},
+    "C:\\Users\\Kent\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
+      "projectUniqueName": "C:\\Users\\Kent\\Desktop\\Repos\\TextInterpreter\\TextInterpreter.csproj",
       "projectName": "TextInterpreter",
-      "projectPath": "C:\\GitHub\\TextInterpreter\\TextInterpreter.csproj",
-      "packagesPath": "C:\\Users\\kent.utterback\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\TextInterpreter\\obj\\",
+      "projectPath": "C:\\Users\\Kent\\Desktop\\Repos\\TextInterpreter\\TextInterpreter.csproj",
+      "packagesPath": "C:\\Users\\Kent\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Kent\\Desktop\\Repos\\TextInterpreter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\kent.utterback\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Kent\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
