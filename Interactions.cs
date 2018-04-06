@@ -82,7 +82,7 @@ namespace TextInterpreter
                         {
                             Act.Take(Object1);
                         }
-                        else if (PC.AllItems().Contains(value))
+                        else if (PC.AllItems())
                         {
                             Act.Take(value);
                         }
