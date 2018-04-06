@@ -17,6 +17,7 @@ namespace TextInterpreter
         static Responses Res = new Responses(Interaction);
         static Locations Loc = new Locations();
 
+
         //Main game loop
         static void Main(string[] args)
         {

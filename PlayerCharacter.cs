@@ -6,20 +6,24 @@ namespace TextInterpreter
 {
     class PlayerCharacter
     {
+        IOData Data;
+        Locations Loc;
         //Object constructor
-        public PlayerCharacter(string item1, string item2, string item3, string startLocation)
+        public PlayerCharacter(string item1, string item2, string item3, Locations.LocationType startLocation, IOData Dat, Locations L)
         {
             Slot1 = item1;
             Slot2 = item2;
             Slot3 = item3;
             Location = startLocation;
+            Data = Dat;
+            Loc = L;
         }
 
         //Read and write individual inventory slots
         public string Slot1 { get; set; }
         public string Slot2 { get; set; }
         public string Slot3 { get; set; }
-        public string Location { get; set; }
+        public Locations.LocationType Location { get; set; }
 
         //Inventory count of all items
         public int ItemCount()
@@ -62,83 +66,91 @@ namespace TextInterpreter
         public void AddItem(string item)
         {
             bool itemExists = false;
-            if (AllItems().Contains(item))
+            foreach (string thing in AllItems())
             {
-                Data.ToWrite = "That item already exists in your inventory.";
-                Data.RenderCommand = "write";
-                itemExists = true;
-            }
-            if (!itemExists)
-            {
-                if (Slot1 == null)
+                if (thing == item)
                 {
-                    Slot1 = item;
-                    Data.ToWrite = item + " has been added to your inventory.";
+                    Data.ToWrite = "That item already exists in your inventory.";
                     Data.RenderCommand = "write";
-                    Loc.RemoveContents(PC.Location, item);
+                    itemExists = true;
                 }
-                else
+                if (!itemExists)
                 {
-                    if (Slot2 == null)
+                    if (Slot1 == null)
                     {
-                        Slot2 = item;
+                        Slot1 = item;
                         Data.ToWrite = item + " has been added to your inventory.";
                         Data.RenderCommand = "write";
-                        Loc.RemoveContents(PC.Location, item);
+                        Loc.RemoveContents(Location, item);
                     }
                     else
                     {
-                        if (Slot3 == null)
+                        if (Slot2 == null)
                         {
-                            Slot3 = item;
+                            Slot2 = item;
                             Data.ToWrite = item + " has been added to your inventory.";
                             Data.RenderCommand = "write";
-                            Loc.RemoveContents(PC.Location, item);
+                            Loc.RemoveContents(Location, item);
                         }
                         else
                         {
-                            Data.ToWrite = "Your inventory is full. Please drop an item to pick up this item.";
-                            Data.RenderCommand = "write";
+                            if (Slot3 == null)
+                            {
+                                Slot3 = item;
+                                Data.ToWrite = item + " has been added to your inventory.";
+                                Data.RenderCommand = "write";
+                                Loc.RemoveContents(Location, item);
+                            }
+                            else
+                            {
+                                Data.ToWrite = "Your inventory is full. Please drop an item to pick up this item.";
+                                Data.RenderCommand = "write";
+                            }
                         }
                     }
                 }
             }
+
         }
 
         public void RemoveItem(string item)
         {
             bool itemRemoved = false;
-            if (AllItems().Contains(item))
+            foreach (string thing in AllItems())
             {
-                if (Slot1 == item)
+                if (thing == item)
+
                 {
-                    Data.ToWrite = item + " has been dropped.";
-                    Data.RenderCommand = "write";
-                    Loc.AddContents(PC.Location, item);
-                    Slot1 = null;
-                    itemRemoved = true;
+                    if (Slot1 == item)
+                    {
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(Location, item);
+                        Slot1 = null;
+                        itemRemoved = true;
+                    }
+                    if (Slot2 == item)
+                    {
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(Location, item);
+                        Slot2 = null;
+                        itemRemoved = true;
+                    }
+                    if (Slot3 == item)
+                    {
+                        Data.ToWrite = item + " has been dropped.";
+                        Data.RenderCommand = "write";
+                        Loc.AddContents(Location, item);
+                        Slot3 = null;
+                        itemRemoved = true;
+                    }
                 }
-                if (Slot2 == item)
+                if (!itemRemoved)
                 {
-                    Data.ToWrite = item + " has been dropped.";
+                    Data.ToWrite = "You are not carrying that item.";
                     Data.RenderCommand = "write";
-                    Loc.AddContents(PC.Location, item);
-                    Slot2 = null;
-                    itemRemoved = true;
                 }
-                if (Slot3 == item)
-                {
-                    Data.ToWrite = item + " has been dropped.";
-                    Data.RenderCommand = "write";
-                    Loc.AddContents(PC.Location, item);
-                    Slot3 = null;
-                    itemRemoved = true;
-                }
-            }
-            if (!itemRemoved)
-            {
-                Data.ToWrite = "You are not carrying that item.";
-                Data.RenderCommand = "write";
             }
         }
     }

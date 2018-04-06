@@ -5,27 +5,82 @@ using System.Text;
 namespace TextInterpreter
 {
     //Location object definition
-    class Locations
+    public class Locations
     {
+        #region Constant Declaration
         public const string newline = "\r\n";
-        OfficeObject Office = new OfficeObject();
-        HallwayObject Hallway = new HallwayObject();
+        public const Dictionary<Direction, bool> OffPathways = {<Direction.West, true>};
+
+        private const string[] OffObjects = { "desk", "note", "cup", "chair", "charlie", "pen" };
+        private const string OffDescription = "You are in a small room. In front of you is a plain looking wooden desk." + newline +
+                "Charlie sits at the desk. Feel free to say hello or to look around the room.";
+        #endregion
+
+        public LocationObject Office = new LocationObject(OffObjects, OffDescription, "office", OffPathways);
+        public LocationObject Hallway = new LocationObject(HallObjects, HallDescription, "hallway", HallPathways);
+
+        #region Location Object Template Class
+        public class LocationObject
+        {
+            public LocationObject(string[] Objects, string Desc, string HumanName, Dictionary<Direction, bool> Paths)
+            {
+                Description = Desc;
+                Name = HumanName;
+                foreach (string x in Objects)
+                {
+                    Contains.Add(x);
+                }
+                Pathways = Paths;
+            }
+            //Name of location object
+            public string Name { get; set; }
+            //Objects collected during the game
+            public List<string> Contains { get; set; } 
+            public string Description { get; set; }
+            //Navigation data
+            private Dictionary<Direction, bool> Pathways { get; set; }
+            public bool Navigation(Direction direction)
+            {
+                bool value = false;
+                if (Pathways.ContainsKey(direction))
+                {
+                    Pathways.TryGetValue(direction, out value);
+                    return value;
+                }
+                else
+                {
+                    return value;
+                }
+            }
+        }
+        #endregion
+
+        #region Enums
         public enum LocationType
         {
             Office,
             Hallway
         }
+
         public enum Direction
         {
-            n = 0, north = 0,
-            ne = 1, northeast = 1,
-            nw = 2, northwest = 2,
-            s = 3, south = 3,
-            se = 4, southeast = 4,
-            sw = 5, southwest = 5,
-            e = 6, east = 6,
-            w = 7, west = 7      
+            N = 0, North = 0,
+            NE = 1, NorthEast = 1,
+            NW = 2, NorthWest = 2,
+            S = 3, South = 3,
+            SE = 4, SouthEast = 4,
+            SW = 5, SouthWest = 5,
+            E = 6, East = 6,
+            W = 7, West = 7      
         }
+        #endregion
+
+        #region Get Set Functions
+        public string[] AllLocations()
+        {
+            return (string[])Enum.GetValues(typeof(LocationType));
+        }
+
         //Returns the description of a location object
         public string GetDescription(LocationType location)
         {
@@ -38,6 +93,7 @@ namespace TextInterpreter
             }
             return "Error in Location.GetDescription";
         }
+
         //Returns the contents of a location object
         public string[] GetContents(LocationType location)
         {
@@ -53,6 +109,7 @@ namespace TextInterpreter
             }
             return contents;
         }
+
         public void AddContents(LocationType location, string item)
         {
             switch (location)
@@ -65,6 +122,7 @@ namespace TextInterpreter
                     break;
             }
         }
+
         public void RemoveContents(LocationType location, string item)
         {
             switch (location)
@@ -83,92 +141,23 @@ namespace TextInterpreter
                     break;
             }
         }
-        public string[] LocationObjects()
+
+        public bool isDirection(LocationType currentLocation, Direction direction)
         {
-            string[] LocationObjects = { "hallway", "office" };
-            return LocationObjects;
-        }
-        public string[] Directions(LocationType currentLocation)
-        {
-            string[] pathways = { };
+            bool isPath = false;
             switch (currentLocation)
             {
                 case LocationType.Office:
-                    pathways = Office.Pathways();
+                    isPath = Office.Navigation(direction);
                     break;
                 case LocationType.Hallway:
-                    pathways = Hallway.Pathways();
+                    isPath = Hallway.Navigation(direction);
                     break;
             }
-            return pathways;
+            return isPath;
         }
-        public string[] AllLocations()
-        {
-            
-            return all;
-        }
-        public class OfficeObject
-        {
-            public OfficeObject()
-            {
-                foreach (string x in Objects)
-                {
-                    Contains.Add(x);
-                }
-            }
-            public string Name = "office";
-            public List<string> Contains { get; set; } //Objects collected during the game
-            public string[] Objects = { "desk", "note", "cup", "chair", "charlie", "pen" };//Objects to start the game with
-            public string Description = "You are in a small room. In front of you is a plain looking wooden desk." + newline +
-                "Charlie sits at the desk. Feel free to say hello or to look around the room.";
-            //Navigation data
-            private string GoNorth = null;
-            private string GoNorthEast = null;
-            private string GoEast = null;
-            private string GoSouthEast = null;
-            private string GoSouth = null;
-            private string GoSouthWest = null;
-            private string GoWest = "hallway";
-            private string GoNorthWest = null;
-            public string[] Pathways()
-            {
-                List<string> possible = new List<string>();
+        #endregion
 
-                if (GoNorth != null)
-                {
-                    possible.Add(GoNorth);
-                }
-                if (GoNorthEast != null)
-                {
-                    possible.Add(GoNorthEast);
-                }
-                if (GoEast != null)
-                {
-                    possible.Add(GoEast);
-                }
-                if (GoSouthEast != null)
-                {
-                    possible.Add(GoSouthEast);
-                }
-                if (GoSouth != null)
-                {
-                    possible.Add(GoSouth);
-                }
-                if (GoSouthWest != null)
-                {
-                    possible.Add(GoSouthWest);
-                }
-                if (GoWest != null)
-                {
-                    possible.Add(GoWest);
-                }
-                if (GoNorthWest != null)
-                {
-                    possible.Add(GoNorthWest);
-                }
-                return possible.ToArray();
-            }
-        }
         public class HallwayObject
         {
             public HallwayObject()
@@ -184,51 +173,19 @@ namespace TextInterpreter
             public string Description = "It's a hallway. It runs North to South and seems to lead to nowhere." + newline +
                 "Behind you to the East is a door with the name Charlie Chaplon in vinyl lettering.";
             //Navigation data
-            private string GoNorth = null;
-            private string GoNorthEast = null;
-            private string GoEast = "office";
-            private string GoSouthEast = null;
-            private string GoSouth = null;
-            private string GoSouthWest = null;
-            private string GoWest = null;
-            private string GoNorthWest = null;
-            public string[] Pathways()
+            private Dictionary<Direction, bool> Pathways { get; set; }
+            public bool Navigation(Direction direction)
             {
-                List<string> possible = new List<string>();
-
-                if (GoNorth != null)
+                bool value = false;
+                if (Pathways.ContainsKey(direction))
                 {
-                    possible.Add(GoNorth);
+                    Pathways.TryGetValue(direction, out value);
+                    return value;
                 }
-                if (GoNorthEast != null)
+                else
                 {
-                    possible.Add(GoNorthEast);
+                    return value;
                 }
-                if (GoEast != null)
-                {
-                    possible.Add(GoEast);
-                }
-                if (GoSouthEast != null)
-                {
-                    possible.Add(GoSouthEast);
-                }
-                if (GoSouth != null)
-                {
-                    possible.Add(GoSouth);
-                }
-                if (GoSouthWest != null)
-                {
-                    possible.Add(GoSouthWest);
-                }
-                if (GoWest != null)
-                {
-                    possible.Add(GoWest);
-                }
-                if (GoNorthWest != null)
-                {
-                    possible.Add(GoNorthWest);
-                }
-                return possible.ToArray();
             }
         }
     }
