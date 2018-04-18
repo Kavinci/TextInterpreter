@@ -6,112 +6,13 @@ namespace TextInterpreter
 {
     class PlayerCharacter
     {
-        IOData Data;
-        Locations Loc;
-        //Object constructor
-        public PlayerCharacter(string item1, string item2, string item3, Locations.LocationType startLocation, IOData Dat, Locations L)
+        Inventory Inventory;
+        public CommonEnums.LocationType CurrentLocation { get; set; }
+        public PlayerCharacter(CommonEnums.Interactables item1, CommonEnums.Interactables item2, CommonEnums.Interactables item3)
         {
-            Slot1 = item1;
-            Slot2 = item2;
-            Slot3 = item3;
-            Location = startLocation;
-            Data = Dat;
-            Loc = L;
+            Inventory = new Inventory(item1, item2, item3);
         }
-
-        //Read and write individual inventory slots
-        public string Slot1 { get; set; }
-        public string Slot2 { get; set; }
-        public string Slot3 { get; set; }
-        public Locations.LocationType Location { get; set; }
-
-        //Inventory count of all items
-        public int ItemCount()
-        {
-            int count = 0;
-            if (Slot1 != null)
-            {
-                count += 1;
-            }
-            if (Slot2 != null)
-            {
-                count += 1;
-            }
-            if (Slot3 != null)
-            {
-                count += 1;
-            }
-            return count;
-        }
-
-        //Bulk export of all items in inventory
-        public string[] AllItems()
-        {
-            string[] items = { null, null, null };
-            if (Slot1 != null)
-            {
-                items[0] = Slot1;
-            }
-            if (Slot2 != null)
-            {
-                items[1] = Slot2;
-            }
-            if (Slot3 != null)
-            {
-                items[2] = Slot3;
-            }
-            return items;
-        }
-
-        public void AddItem(string item)
-        {
-            bool itemExists = false;
-            foreach (string thing in AllItems())
-            {
-                if (thing == item)
-                {
-                    Data.ToWrite = "That item already exists in your inventory.";
-                    Data.RenderCommand = "write";
-                    itemExists = true;
-                }
-                if (!itemExists)
-                {
-                    if (Slot1 == null)
-                    {
-                        Slot1 = item;
-                        Data.ToWrite = item + " has been added to your inventory.";
-                        Data.RenderCommand = "write";
-                        Loc.RemoveContents(Location, item);
-                    }
-                    else
-                    {
-                        if (Slot2 == null)
-                        {
-                            Slot2 = item;
-                            Data.ToWrite = item + " has been added to your inventory.";
-                            Data.RenderCommand = "write";
-                            Loc.RemoveContents(Location, item);
-                        }
-                        else
-                        {
-                            if (Slot3 == null)
-                            {
-                                Slot3 = item;
-                                Data.ToWrite = item + " has been added to your inventory.";
-                                Data.RenderCommand = "write";
-                                Loc.RemoveContents(Location, item);
-                            }
-                            else
-                            {
-                                Data.ToWrite = "Your inventory is full. Please drop an item to pick up this item.";
-                                Data.RenderCommand = "write";
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
+        
 
         public void RemoveItem(string item)
         {

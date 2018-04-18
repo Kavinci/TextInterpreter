@@ -40,5 +40,11 @@ namespace TextInterpreter
             East,
             West
         }
+        public enum InventorySlot
+        {
+            Slot1,
+            Slot2,
+            Slot3
+        }
     }
 }

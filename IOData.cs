@@ -5,12 +5,16 @@ using System.Text;
 namespace TextInterpreter
 {
     //Buffer object to handle screen Input and Output as well as historical savings
-    class IOData
+    public class IOData
     {
-        public string ToWrite { get; set; }
-        public string ToRead { get; set; }
-        public string LastWrite { get; set; }
-        public string LastRead { get; set; }
-        public string RenderCommand { get; set; }
+        private string ToWrite { get; set; }
+        private string ToRead { get; set; }
+        private string LastWrite { get; set; }
+        private string LastRead { get; set; }
+        private string RenderCommand { get; set; }
+        public void SetWrite(string value)
+        {
+
+        }
     }
 }
