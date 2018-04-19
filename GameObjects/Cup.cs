@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextInterpreter.Common;
+using TextInterpreter.Locations;
 
-namespace TextInterpreter
+namespace TextInterpreter.GameObjects
 {
     class Cup : BaseGameObject
     {

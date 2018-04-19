@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TextInterpreter
+namespace TextInterpreter.Common
 {
     public class CommonEnums
     {
@@ -38,7 +38,8 @@ namespace TextInterpreter
             SouthEast,
             SouthWest,
             East,
-            West
+            West,
+            None
         }
         public enum InventorySlot
         {
@@ -46,5 +47,18 @@ namespace TextInterpreter
             Slot2,
             Slot3
         }
+        public enum Actions
+        {
+            Take,
+            Put,
+            Hit,
+            Use,
+            Throw,
+            Look,
+            Go,
+            Drop,
+            Help,
+            None
+        };
     }
 }

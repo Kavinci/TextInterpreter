@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TextInterpreter.Common;
+using TextInterpreter.GameObjects;
 
 namespace TextInterpreter
 {

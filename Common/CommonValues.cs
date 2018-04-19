@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TextInterpreter
+namespace TextInterpreter.Common
 {
     public class CommonValues
     {
