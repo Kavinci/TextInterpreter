@@ -7,5 +7,6 @@ namespace TextInterpreter.Common
     public class CommonValues
     {
         public const string NewLine = "\r\n";
+        public const string StartingText = "Application has started!";
     }
 }

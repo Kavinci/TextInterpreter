@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TextInterpreter.Common;
-using TextInterpreter.Locations;
 
 namespace TextInterpreter.GameObjects
 {
@@ -12,6 +11,10 @@ namespace TextInterpreter.GameObjects
         {
             Name = "chair";
             Size = CommonEnums.Size.Large;
+            RoomLocation = CommonEnums.LocationType.Office;
+            ObjectLocation = CommonEnums.Interactables.None;
+            Contains = new List<CommonEnums.Interactables>();
+            Contains.Add(CommonEnums.Interactables.NPC);
         }
         public string Description = "An old office chair worn from being sat in for 8 hours a day.";
     }

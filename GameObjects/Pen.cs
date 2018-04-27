@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TextInterpreter.Common;
-using TextInterpreter.Locations;
 
 namespace TextInterpreter.GameObjects
 {
@@ -12,6 +11,9 @@ namespace TextInterpreter.GameObjects
         {
             Name = "pen";
             Size = CommonEnums.Size.Small;
+            RoomLocation = CommonEnums.LocationType.Office;
+            ObjectLocation = CommonEnums.Interactables.Desk;
+            Contains = new List<CommonEnums.Interactables>();
         }
         public string Description = "A pen of blue ink, good for writing Notes.";
     }

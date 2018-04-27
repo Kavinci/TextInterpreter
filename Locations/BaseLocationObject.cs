@@ -10,5 +10,9 @@ namespace TextInterpreter.Locations
         public string Name;
         public List<CommonEnums.Interactables> Contains { get; set; }
         public Dictionary<CommonEnums.Direction, CommonEnums.LocationType> Pathways { get; set; }
+        public BaseLocationObject()
+        {
+
+        }
     }
 }

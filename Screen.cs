@@ -8,7 +8,7 @@ namespace TextInterpreter
     //Buffer object to handle screen Input and Output as well as historical savings
     public class Screen
     {
-        private string[] Delimiters = { " ", "to", "in", "on", "with", "at", ".", ",", ";", "\"", ":" };
+        private string[] Delimiters = { " ", ".", ",", ";", "\"", ":" };
         private string WriteBuffer { get; set; }
         private List<string> ReadBuffer { get; set; }
         private string WriteMemory { get; set; }
@@ -19,7 +19,7 @@ namespace TextInterpreter
         }
         public Screen()
         {
-            WriteToBuffer("Application has started!");
+            WriteToBuffer(CommonValues.StartingText);
             ReadMemory = new List<string>() { "NEW" };
             ReadBuffer = new List<string>() { "NEW" };
         }

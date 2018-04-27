@@ -11,20 +11,13 @@ namespace TextInterpreter.Interactions
         {
 
         }
-        public string[] greetings = { "hi", "hello", "hey", "howdy", "hola", "sup", "greetings" };
-        public string sassyWarning = "SASSY MODE ACTIVATED";  
+        public string Respond(string input)
+        {
+            return input;
+        }
         public string Greetings(int x)
         {
-            string res = "";
-            switch (x)
-            {
-                case 0:
-                    res = "Hello, welcome to my office. How may I help you?";
-                    break;
-                case 1:
-                    res = sassyWarning + "Charlie: BYE FELICIA!";
-                    break;
-            }
+            string res = "Hello, welcome to my office. How may I help you?";
             return res;
         }
     }

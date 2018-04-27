@@ -8,37 +8,84 @@ namespace TextInterpreter.Interactions
     //Action functions
     public class Actions
     {
+        private Player Player;
+        private GameObjectsManager GameObjects;
+        private LocationsManager Locations;
         public Actions()
         {
-           
+            Player = new Player(CommonEnums.LocationType.Office);
+            GameObjects = new GameObjectsManager();
+            Locations = new LocationsManager();
         }
-        public void Take(CommonEnums.Interactables item)
+        public string Take(CommonEnums.Interactables item)
         {
-
+            GameObjects.RemoveItemFromScene(item, Player.Location, out string response);
+            if (response != null)
+            {
+                return response;
+            }
+            else
+            {
+                Locations.RemoveContents(Player.Location, item);
+                return Player.Take(item);
+            }
         }
-        public void Put(CommonEnums.Interactables item)
+        public string Put(CommonEnums.Interactables item1, CommonEnums.Interactables item2)
         {
-            //remove item from inventory and place it in the location
+            GameObjects.PutItemOnObject(item1, item2, Player.Location, out string response);
+            return response;
         }
-        public void Use()
+        public string Use(CommonEnums.Interactables item)
         {
-            //if item exists in inventory and target exists in location then perform action, depends on item used
+            //use an item in the scene
+            return "You used " + item.ToString().ToLower();
         }
-        public void Look(CommonEnums.Interactables item)
+        public string Look(CommonEnums.Interactables item)
         {
-            
+            return GameObjects.GetDescription(item, Player.Location);
         }
-        public void Look(CommonEnums.LocationType location)
+        public string Look(CommonEnums.LocationType location)
         {
-
+            if(location == CommonEnums.LocationType.None)
+            {
+                return Locations.GetDescription(Player.Location);
+            }
+            else if(location == CommonEnums.LocationType.Inventory)
+            {
+                return Player.PlayerInventory();
+            }
+            else
+            {
+                return Locations.GetDescription(location);
+            }
         }
-        public void Go(string location)
+        public string Go(CommonEnums.LocationType location)
         {
-            
+            Player.SetLocation(location);
+            return Locations.GetDescription(Player.Location);
         }
-        public void Drop(string item)
+        public string Go(CommonEnums.Direction direction)
         {
-
+            if(Locations.isDirection(Player.Location, direction))
+            {
+                Player.SetLocation(Locations.DirectionToLocation(Player.Location, direction));
+                return Locations.GetDescription(Player.Location);
+            }
+            else
+            {
+                return "You cannot go that direction";
+            } 
+        }
+        public string Drop(CommonEnums.Interactables item)
+        {
+            string response = Player.Drop(item);
+            if(response == null)
+            {
+                GameObjects.AddItemToScene(item, Player.Location);
+                Locations.AddContents(Player.Location, item);
+                response = item.ToString() + " has been dropped from your inventory";
+            }
+            return response;
         }
     }
 }

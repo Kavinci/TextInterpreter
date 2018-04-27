@@ -27,7 +27,7 @@ namespace TextInterpreter
                 case CommonEnums.LocationType.Hallway:
                     return Hallway.Description;
             }
-            return "Error in Location.GetDescription";
+            return "Location Manager out of Sync with locations";
         }
         //Returns the contents of a location object
         public List<CommonEnums.Interactables> GetContents(CommonEnums.LocationType location)
@@ -46,40 +46,40 @@ namespace TextInterpreter
         }
         public void AddContents(CommonEnums.LocationType currentLocation, CommonEnums.Interactables item)
         {
-            foreach(CommonEnums.Interactables x in GetContents(currentLocation))
+            List<CommonEnums.Interactables> contents = GetContents(currentLocation);
+            if (!contents.Contains(item))
             {
-                if(x != item)
+                contents.Add(item);
+                switch (currentLocation)
                 {
-                    switch (currentLocation)
-                    {
-                        case CommonEnums.LocationType.Office:
-                            Office.Contains.Add(item);
-                            break;
-                        case CommonEnums.LocationType.Hallway:
-                            Hallway.Contains.Add(item);
-                            break;
-                    }
+                    case CommonEnums.LocationType.Office:
+                        Office.Contains.Clear();
+                        Office.Contains = contents;
+                        break;
+                    case CommonEnums.LocationType.Hallway:
+                        Hallway.Contains.Clear();
+                        Hallway.Contains = contents;
+                        break;
                 }
             }
         }
         public void RemoveContents(CommonEnums.LocationType currentLocation, CommonEnums.Interactables item)
         {
-            foreach(CommonEnums.Interactables x in GetContents(currentLocation))
+            List<CommonEnums.Interactables> contents = GetContents(currentLocation);
+            if (contents.Remove(item))
             {
-                if(x == item)
+                switch (currentLocation)
                 {
-                    switch (currentLocation)
-                    {
-                        case CommonEnums.LocationType.Office:
-                             Office.Contains.Remove(item);
-                            break;
-                        case CommonEnums.LocationType.Hallway:
-                            Hallway.Contains.Remove(item);
-                            break;
-                    }
+                    case CommonEnums.LocationType.Office:
+                        Office.Contains.Clear();
+                        Office.Contains = contents;
+                        break;
+                    case CommonEnums.LocationType.Hallway:
+                        Hallway.Contains.Clear();
+                        Hallway.Contains = contents;
+                        break;
                 }
             }
-            
         }
         public bool isDirection(CommonEnums.LocationType currentLocation, CommonEnums.Direction direction)
         {

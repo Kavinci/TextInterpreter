@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
+using TextInterpreter.Common;
 
 namespace TextInterpreter
 {
@@ -20,21 +21,27 @@ namespace TextInterpreter
             GameState = new BaseState();
             //Set saved game state here
             Screen = new Screen();
-            GameManager = new GameManager();
-            GameState.Set("continue");
+            GameManager = new GameManager(GameState);
+            GameState.Set(CommonEnums.Controls.None);
             Screen.Render();
         }
         static void GameLoop()
         {
-            if (GameState.Get == "continue")
+            if (GameState.Get == CommonEnums.Controls.None)
             {
                 Screen.ReadToBuffer();
                 Screen.WriteToBuffer(GameManager.Process(Screen.Input));
-                if (GameManager.Exit)
+                if (GameState.Get == CommonEnums.Controls.Exit)
                 {
-                    GameState.Set("Exit");
                     GameState.Increment();
                     //Save state here
+                }
+                else if (GameState.Get == CommonEnums.Controls.Clear)
+                {
+                    Screen.Clear();
+                    GameState.Set(CommonEnums.Controls.None);
+                    GameState.Increment();
+                    GameLoop();
                 }
                 else
                 {

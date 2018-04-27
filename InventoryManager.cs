@@ -35,17 +35,17 @@ namespace TextInterpreter
         {
             error = "Inventory is full";
             bool success = false;
-            if (success = !true)
+            if (success == !true)
             {
                 Slot1.AddItem(item, out success);
                 error = null;
             }
-            if (success = !true)
+            if (success == !true)
             {
                 Slot2.AddItem(item, out success);
                 error = null;
             }
-            if (success = !true)
+            if (success == !true)
             {
                 Slot3.AddItem(item, out success);
                 error = null;
@@ -56,22 +56,54 @@ namespace TextInterpreter
         {
             error = "That item is not in your inventory";
             bool success = false;
-            if (success = !true)
+            if (success == !true)
             {
                 Slot1.RemoveItem(item, out success);
                 error = null;
             }
-            if (success = !true)
+            if (success == !true)
             {
                 Slot2.RemoveItem(item, out success);
                 error = null;
             }
-            if (success = !true)
+            if (success == !true)
             {
                 Slot3.RemoveItem(item, out success);
                 error = null;
             }
             RefreshInventory();
+        }
+        public string GetInventory()
+        {
+            string Inventory = "You currently have ";
+            List<CommonEnums.Interactables> ItemsHeld = new List<CommonEnums.Interactables>();
+            foreach(CommonEnums.Interactables x in InventorySlots.Values)
+            {
+                if(x != CommonEnums.Interactables.None)
+                {
+                    ItemsHeld.Add(x);
+                }
+            }
+            if(ItemsHeld.Count == 0)
+            {
+                return "Your inventory is empty";
+            }
+            else
+            {
+                switch (ItemsHeld.Count)
+                {
+                    case 1:
+                        Inventory = Inventory + " a " + ItemsHeld[0].ToString().ToLower();
+                        break;
+                    case 2:
+                        Inventory = Inventory + ItemsHeld[0].ToString().ToLower() + " and " + ItemsHeld[1].ToString().ToLower();
+                        break;
+                    case 3:
+                        Inventory = Inventory + ItemsHeld[0].ToString().ToLower() + ", " + ItemsHeld[1].ToString().ToLower() + ", and " + ItemsHeld[2].ToString().ToLower();
+                        break;
+                }
+                return Inventory + " in your inventory";
+            }
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TextInterpreter.Common;
-using TextInterpreter.Locations;
 
 namespace TextInterpreter.GameObjects
 {
@@ -12,6 +11,12 @@ namespace TextInterpreter.GameObjects
         {
             Name = "desk";
             Size = CommonEnums.Size.Large;
+            RoomLocation = CommonEnums.LocationType.Office;
+            ObjectLocation = CommonEnums.Interactables.None;
+            Contains = new List<CommonEnums.Interactables>();
+            Contains.Add(CommonEnums.Interactables.Cup);
+            Contains.Add(CommonEnums.Interactables.Note);
+            Contains.Add(CommonEnums.Interactables.Pen);
         }
         public string Description()
         {

@@ -15,120 +15,145 @@ namespace TextInterpreter
         private Note Note;
         private Pen Pen;
         private Desk Desk;
-        public GameObjectsManager(List<CommonEnums.Interactables> GameObjects)
+        public GameObjectsManager()
         {
-            foreach(CommonEnums.Interactables x in GameObjects)
+            Desk = new Desk();
+            Note = new Note();
+            Cup = new Cup();
+            NPC = new NPC();
+            Chair = new Chair();
+            Pen = new Pen();
+        }
+        public string GetDescription(CommonEnums.Interactables item, CommonEnums.LocationType currentLocation)
+        {
+            string description = "That item is nowhere to be found";
+            if(DoesObjectExistInScene(item, currentLocation))
             {
-                switch (x)
+                switch (item)
                 {
                     case CommonEnums.Interactables.Desk:
-                        Desk = new Desk();
+                        description = Desk.Description();
                         break;
                     case CommonEnums.Interactables.Note:
-                        Note = new Note();
+                        description = Note.Description;
                         break;
                     case CommonEnums.Interactables.Cup:
-                        Cup = new Cup();
+                        description = Cup.Description;
                         break;
                     case CommonEnums.Interactables.NPC:
-                        NPC = new NPC();
+                        description = NPC.Description;
                         break;
                     case CommonEnums.Interactables.Chair:
-                        Chair = new Chair();
+                        description = Chair.Description;
                         break;
                     case CommonEnums.Interactables.Pen:
-                        Pen = new Pen();
+                        description = Pen.Description;
                         break;
                 }
-            }
-        }
-        public string GetDescription(CommonEnums.Interactables item)
-        {
-            string description = "";
-            switch (item)
-            {
-                case CommonEnums.Interactables.Desk:
-                    description = Desk.Description();
-                    break;
-                case CommonEnums.Interactables.Note:
-                    description = Note.Description;
-                    break;
-                case CommonEnums.Interactables.Cup:
-                    description = Cup.Description;
-                    break;
-                case CommonEnums.Interactables.NPC:
-                    description = NPC.Description;
-                    break;
-                case CommonEnums.Interactables.Chair:
-                    description = Chair.Description;
-                    break;
-                case CommonEnums.Interactables.Pen:
-                    description = Pen.Description;
-                    break;
             }
             return description;
         }
         public string GetObjectName(CommonEnums.Interactables item)
         {
-            string name = "";
-                switch (item)
-                {
-                    case CommonEnums.Interactables.Desk:
-                        name = Desk.Name;
-                        break;
-                    case CommonEnums.Interactables.Note:
-                        name = Note.Name;
-                        break;
-                    case CommonEnums.Interactables.Cup:
-                        name = Cup.Name;
-                        break;
-                    case CommonEnums.Interactables.NPC:
-                        name = NPC.Name;
-                        break;
-                    case CommonEnums.Interactables.Chair:
-                        name = Chair.Name;
-                        break;
-                    case CommonEnums.Interactables.Pen:
-                        name = Pen.Name;
-                        break;
-                }
-            return name;
+            if(CommonEnums.Interactables.NPC == item)
+            {
+                return "Charlie";
+            }
+            else
+            {
+                return item.ToString().ToLower();
+            }
+        }
+        private bool DoesObjectExistInScene(CommonEnums.Interactables item, CommonEnums.LocationType location)
+        {
+            switch (item)
+            {
+                case CommonEnums.Interactables.Desk:
+                    if(Desk.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case CommonEnums.Interactables.Note:
+                    if (Note.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case CommonEnums.Interactables.Cup:
+                    if (Cup.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case CommonEnums.Interactables.NPC:
+                    if (NPC.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case CommonEnums.Interactables.Chair:
+                    if (Chair.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                case CommonEnums.Interactables.Pen:
+                    if (Pen.RoomLocation == location)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                default:
+                    return false;
+            }
         }
         private bool CanPickupItem(CommonEnums.Interactables item, CommonEnums.LocationType currentLocation)
         {
             bool status = false;
             int Size = 0;
-            CommonEnums.LocationType itemLocation = CommonEnums.LocationType.None;
             //Get size of item to carry and the location of the item
             switch (item)
             {
                 case CommonEnums.Interactables.Desk:
                     Size = (int)Desk.Size;
-                    itemLocation = Desk.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Note:
                     Size = (int)Note.Size;
-                    itemLocation = Note.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Cup:
                     Size = (int)Cup.Size;
-                    itemLocation = Cup.RoomLocation;
                     break;
                 case CommonEnums.Interactables.NPC:
                     Size = (int)NPC.Size;
-                    itemLocation = NPC.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Chair:
                     Size = (int)Chair.Size;
-                    itemLocation = Chair.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Pen:
                     Size = (int)Pen.Size;
-                    itemLocation = Pen.RoomLocation;
                     break;
             }
             //If item is too big, deny
-            if (Size < 2 && itemLocation == currentLocation) status = true;
+            if (Size < 2 && DoesObjectExistInScene(item, currentLocation)) status = true;
             return status;
         }
         private bool CanPutOnObject(CommonEnums.Interactables item, CommonEnums.Interactables destination, CommonEnums.LocationType currentLocation)
@@ -136,34 +161,26 @@ namespace TextInterpreter
             bool status = false;
             int ItemSize = 0;
             int DestinationSize = 0;
-            CommonEnums.LocationType itemLocation = CommonEnums.LocationType.None;
-            CommonEnums.LocationType destinationLocation = CommonEnums.LocationType.None;
             //Get size and location of item to place
             switch (item)
             {
                 case CommonEnums.Interactables.Desk:
                     ItemSize = (int)Desk.Size;
-                    itemLocation = Desk.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Note:
                     ItemSize = (int)Note.Size;
-                    itemLocation = Note.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Cup:
                     ItemSize = (int)Cup.Size;
-                    itemLocation = Cup.RoomLocation;
                     break;
                 case CommonEnums.Interactables.NPC:
                     ItemSize = (int)NPC.Size;
-                    itemLocation = NPC.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Chair:
                     ItemSize = (int)Chair.Size;
-                    itemLocation = Chair.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Pen:
                     ItemSize = (int)Pen.Size;
-                    itemLocation = Pen.RoomLocation;
                     break;
             }
             //Get size and location of item to place first item on
@@ -171,91 +188,100 @@ namespace TextInterpreter
             {
                 case CommonEnums.Interactables.Desk:
                     DestinationSize = (int)Desk.Size;
-                    destinationLocation = Desk.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Note:
                     DestinationSize = (int)Note.Size;
-                    destinationLocation = Note.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Cup:
                     DestinationSize = (int)Cup.Size;
-                    destinationLocation = Cup.RoomLocation;
                     break;
                 case CommonEnums.Interactables.NPC:
                     DestinationSize = (int)NPC.Size;
-                    destinationLocation = NPC.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Chair:
                     DestinationSize = (int)Chair.Size;
-                    destinationLocation = Chair.RoomLocation;
                     break;
                 case CommonEnums.Interactables.Pen:
                     DestinationSize = (int)Pen.Size;
-                    destinationLocation = Pen.RoomLocation;
                     break;
             }
             //If the item is too large for the destination, deny
-            if (ItemSize < DestinationSize && itemLocation == CommonEnums.LocationType.Inventory && destinationLocation == currentLocation) status = true;
+            if (ItemSize < DestinationSize && DoesObjectExistInScene(item, currentLocation) && DoesObjectExistInScene(destination, currentLocation)) status = true;
 
             return status;
         }
         public void PutItemOnObject(CommonEnums.Interactables item, CommonEnums.Interactables destination, CommonEnums.LocationType currentLocation, out string error)
         {
-            error = "This item is too large for that action.";
-            bool canPut = CanPutOnObject(item, destination, currentLocation);
-            if (canPut)
+            error = "I don't know how to do that";
+            if (item != CommonEnums.Interactables.None && destination != CommonEnums.Interactables.None)
             {
-                switch (item)
+                error = "This item is too large for that action.";
+                bool canPut = CanPutOnObject(item, destination, currentLocation);
+                if (canPut)
                 {
-                    case CommonEnums.Interactables.Desk:
-                        Desk.ObjectLocation = destination;
-                        Desk.RoomLocation = currentLocation;
-                        break;
-                    case CommonEnums.Interactables.Note:
-                        Note.ObjectLocation = destination;
-                        Note.RoomLocation = currentLocation;
-                        break;
-                    case CommonEnums.Interactables.Cup:
-                        Cup.ObjectLocation = destination;
-                        Cup.RoomLocation = currentLocation;
-                        break;
-                    case CommonEnums.Interactables.NPC:
-                        NPC.ObjectLocation = destination;
-                        NPC.RoomLocation = currentLocation;
-                        break;
-                    case CommonEnums.Interactables.Chair:
-                        Chair.ObjectLocation = destination;
-                        Chair.RoomLocation = currentLocation;
-                        break;
-                    case CommonEnums.Interactables.Pen:
-                        Pen.ObjectLocation = destination;
-                        Pen.RoomLocation = currentLocation;
-                        break;
-                }
+                    switch (item)
+                    {
+                        case CommonEnums.Interactables.Desk:
+                            Desk.ObjectLocation = destination;
+                            Desk.RoomLocation = currentLocation;
+                            break;
+                        case CommonEnums.Interactables.Note:
+                            Note.ObjectLocation = destination;
+                            Note.RoomLocation = currentLocation;
+                            break;
+                        case CommonEnums.Interactables.Cup:
+                            Cup.ObjectLocation = destination;
+                            Cup.RoomLocation = currentLocation;
+                            break;
+                        case CommonEnums.Interactables.NPC:
+                            NPC.ObjectLocation = destination;
+                            NPC.RoomLocation = currentLocation;
+                            break;
+                        case CommonEnums.Interactables.Chair:
+                            Chair.ObjectLocation = destination;
+                            Chair.RoomLocation = currentLocation;
+                            break;
+                        case CommonEnums.Interactables.Pen:
+                            Pen.ObjectLocation = destination;
+                            Pen.RoomLocation = currentLocation;
+                            break;
+                    }
 
-                switch (destination)
+                    switch (destination)
+                    {
+                        case CommonEnums.Interactables.Desk:
+                            Desk.Contains.Add(item);
+                            break;
+                        case CommonEnums.Interactables.Note:
+                            Note.Contains.Add(item);
+                            break;
+                        case CommonEnums.Interactables.Cup:
+                            Cup.Contains.Add(item);
+                            break;
+                        case CommonEnums.Interactables.NPC:
+                            NPC.Contains.Add(item);
+                            break;
+                        case CommonEnums.Interactables.Chair:
+                            Chair.Contains.Add(item);
+                            break;
+                        case CommonEnums.Interactables.Pen:
+                            Pen.Contains.Add(item);
+                            break;
+                    }
+
+                    error = "The " + destination.ToString().ToLower() + " now contains a " + item.ToString().ToLower();
+                }
+            }
+            else
+            {
+                if(item == CommonEnums.Interactables.None && destination != CommonEnums.Interactables.None)
                 {
-                    case CommonEnums.Interactables.Desk:
-                        Desk.Contains.Add(item);
-                        break;
-                    case CommonEnums.Interactables.Note:
-                        Note.Contains.Add(item);
-                        break;
-                    case CommonEnums.Interactables.Cup:
-                        Cup.Contains.Add(item);
-                        break;
-                    case CommonEnums.Interactables.NPC:
-                        NPC.Contains.Add(item);
-                        break;
-                    case CommonEnums.Interactables.Chair:
-                        Chair.Contains.Add(item);
-                        break;
-                    case CommonEnums.Interactables.Pen:
-                        Pen.Contains.Add(item);
-                        break;
+                    error = "What would you like to put in the " + destination.ToString().ToLower() + "?";
                 }
-
-                error = null;
+                if(item != CommonEnums.Interactables.None && destination == CommonEnums.Interactables.None)
+                {
+                    error = "Where do you want to place the " + item.ToString().ToLower() + "?";
+                }
             }
         }
         public void RemoveItemFromScene(CommonEnums.Interactables item, CommonEnums.LocationType currentLocation, out string error)
@@ -321,6 +347,34 @@ namespace TextInterpreter
                 }
                 error = null;
             }
+        }
+        public void AddItemToScene(CommonEnums.Interactables item, CommonEnums.LocationType currentLocation)
+        {
+                switch (item)
+                {
+                    case CommonEnums.Interactables.Desk:
+                    Desk.RoomLocation = currentLocation;
+                        break;
+                    case CommonEnums.Interactables.Note:
+                        Note.RoomLocation = currentLocation;
+                        break;
+                    case CommonEnums.Interactables.Cup:
+                        Cup.RoomLocation = currentLocation;
+                        break;
+                    case CommonEnums.Interactables.NPC:
+                        NPC.RoomLocation = currentLocation;
+                        break;
+                    case CommonEnums.Interactables.Chair:
+                        Chair.RoomLocation = currentLocation;
+                        break;
+                    case CommonEnums.Interactables.Pen:
+                        Pen.RoomLocation = currentLocation;
+                        break;
+                }
+        }
+        public void UseObject(CommonEnums.Interactables item)
+        {
+            //use an object logic here
         }
     }
 }

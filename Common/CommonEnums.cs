@@ -32,13 +32,21 @@ namespace TextInterpreter.Common
         public enum Direction
         {
             North,
+            N,
             NorthEast,
+            NE,
             NorthWest,
+            NW,
             South,
+            S,
             SouthEast,
+            SE,
             SouthWest,
+            SW,
             East,
+            E,
             West,
+            W,
             None
         }
         public enum InventorySlot
@@ -57,8 +65,15 @@ namespace TextInterpreter.Common
             Look,
             Go,
             Drop,
-            Help,
+            Dialog,
             None
-        };
+        }
+        public enum Controls
+        {
+            Help,
+            Exit,
+            Clear,
+            None
+        }
     }
 }

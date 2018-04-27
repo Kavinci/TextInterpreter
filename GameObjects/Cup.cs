@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TextInterpreter.Common;
-using TextInterpreter.Locations;
 
 namespace TextInterpreter.GameObjects
 {
@@ -12,6 +11,9 @@ namespace TextInterpreter.GameObjects
         {
             Name = "cup";
             Size = CommonEnums.Size.Medium;
+            RoomLocation = CommonEnums.LocationType.Office;
+            ObjectLocation = CommonEnums.Interactables.Desk;
+            Contains = new List<CommonEnums.Interactables>();
         }
         public string Description = "Normally used for holding coffee but is currently empty.";
     }

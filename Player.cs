@@ -24,15 +24,14 @@ namespace TextInterpreter
             }
             return response;
         }
-        public string Put(CommonEnums.Interactables item)
+        public string Drop(CommonEnums.Interactables item)
         {
-            string response;
-            Inventory.RemoveItemFromInventory(item, out response);
-            if (response == null)
-            {
-                response = item.ToString() + " has been added to your inventory.";
-            }
+            Inventory.RemoveItemFromInventory(item, out string response);
             return response;
+        }
+        public string PlayerInventory()
+        {
+            return Inventory.GetInventory();
         }
     }
 }
