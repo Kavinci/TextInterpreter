@@ -57,6 +57,7 @@ namespace TextInterpreter.Common
         }
         public enum Actions
         {
+            Start,
             Take,
             Put,
             Hit,

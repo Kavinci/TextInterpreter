@@ -18,6 +18,7 @@ namespace TextInterpreter
         public string Process(List<string> input)
         {
             Context Context = new Context();
+            Context = SetDialog(Context, input);
             foreach (string x in input)
             {
                 Context = SetControl(Context, x);
@@ -40,6 +41,16 @@ namespace TextInterpreter
             {
                 return InteractionsManager.ProcessContext(Context);
             }
+        }
+        private Context SetDialog(Context Context, List<string> input)
+        {
+            string response = null;
+            foreach(string x in input)
+            {
+                response = response + x;
+            }
+            Context.Dialog = response;
+            return Context;
         }
         private Context SetControl(Context Context, string input)
         {

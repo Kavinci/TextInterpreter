@@ -20,9 +20,10 @@ namespace TextInterpreter
         {
             GameState = new BaseState();
             //Set saved game state here
-            Screen = new Screen();
             GameManager = new GameManager(GameState);
             GameState.Set(CommonEnums.Controls.None);
+            List<string> start = new List<string>() { "start" };
+            Screen = new Screen(GameManager.Process(start));
             Screen.Render();
         }
         static void GameLoop()

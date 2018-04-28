@@ -13,6 +13,7 @@ namespace TextInterpreter.Interactions
         }
         public string Respond(string input)
         {
+            //Fill in logic for handling dialog here
             return input;
         }
         public string Greetings(int x)

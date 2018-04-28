@@ -7,7 +7,7 @@ namespace TextInterpreter.Interactions
     public class Help
     {
         Sass Sass;
-        private string Text = "Help Text";
+        private string Text = "Try typing simple sentences. For example: \"Pick up the Pen\" or \"Go West\"";
         public Help()
         {
             Sass = new Sass();

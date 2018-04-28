@@ -17,9 +17,9 @@ namespace TextInterpreter
         {
             get { return ReadBuffer; }
         }
-        public Screen()
+        public Screen(string StartingText)
         {
-            WriteToBuffer(CommonValues.StartingText);
+            WriteToBuffer(StartingText);
             ReadMemory = new List<string>() { "NEW" };
             ReadBuffer = new List<string>() { "NEW" };
         }

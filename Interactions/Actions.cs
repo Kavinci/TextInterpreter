@@ -17,6 +17,10 @@ namespace TextInterpreter.Interactions
             GameObjects = new GameObjectsManager();
             Locations = new LocationsManager();
         }
+        public string Start()
+        {
+            return Locations.GetDescription(Player.Location);
+        }
         public string Take(CommonEnums.Interactables item)
         {
             GameObjects.RemoveItemFromScene(item, Player.Location, out string response);

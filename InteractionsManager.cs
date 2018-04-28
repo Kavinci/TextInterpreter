@@ -27,6 +27,10 @@ namespace TextInterpreter
             {
                 return Response.Respond(Context.Dialog);
             }
+            else if(Context.Action == Common.CommonEnums.Actions.Start)
+            {
+                return Actions.Start();
+            }
             else
             {
                 switch (Context.Action)
