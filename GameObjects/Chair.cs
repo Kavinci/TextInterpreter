@@ -14,7 +14,7 @@ namespace TextInterpreter.GameObjects
             RoomLocation = CommonEnums.LocationType.Office;
             ObjectLocation = CommonEnums.Interactables.None;
             Contains = new List<CommonEnums.Interactables>();
-            Contains.Add(CommonEnums.Interactables.NPC);
+            Contains.Add(CommonEnums.Interactables.Charlie);
         }
         public string Description = "An old office chair worn from being sat in for 8 hours a day.";
     }

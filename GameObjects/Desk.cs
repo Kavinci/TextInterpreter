@@ -34,7 +34,7 @@ namespace TextInterpreter.GameObjects
                             break;
                         case CommonEnums.Interactables.Pen:
                             break;
-                        case CommonEnums.Interactables.NPC:
+                        case CommonEnums.Interactables.Charlie:
                         case CommonEnums.Interactables.Chair:
                             break;
                     }

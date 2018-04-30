@@ -11,7 +11,7 @@ namespace TextInterpreter.Common
             None,
             Cup,
             Chair,
-            NPC,
+            Charlie,
             Desk,
             Note,
             Pen
@@ -66,7 +66,7 @@ namespace TextInterpreter.Common
             Look,
             Go,
             Drop,
-            Dialog,
+            Talk,
             None
         }
         public enum Controls
@@ -74,7 +74,14 @@ namespace TextInterpreter.Common
             Help,
             Exit,
             Clear,
+            Dialog,
+            Talk,
             None
+        }
+        public enum NPC
+        {
+            None,
+            Charlie
         }
     }
 }

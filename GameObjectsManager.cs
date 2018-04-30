@@ -11,7 +11,7 @@ namespace TextInterpreter
         //Game objects definition and data
         private Cup Cup;
         private Chair Chair;
-        private NPC NPC;
+        private NPC Charlie;
         private Note Note;
         private Pen Pen;
         private Desk Desk;
@@ -20,7 +20,7 @@ namespace TextInterpreter
             Desk = new Desk();
             Note = new Note();
             Cup = new Cup();
-            NPC = new NPC();
+            Charlie = new NPC();
             Chair = new Chair();
             Pen = new Pen();
         }
@@ -40,8 +40,8 @@ namespace TextInterpreter
                     case CommonEnums.Interactables.Cup:
                         description = Cup.Description;
                         break;
-                    case CommonEnums.Interactables.NPC:
-                        description = NPC.Description;
+                    case CommonEnums.Interactables.Charlie:
+                        description = Charlie.Description;
                         break;
                     case CommonEnums.Interactables.Chair:
                         description = Chair.Description;
@@ -55,7 +55,7 @@ namespace TextInterpreter
         }
         public string GetObjectName(CommonEnums.Interactables item)
         {
-            if(CommonEnums.Interactables.NPC == item)
+            if(CommonEnums.Interactables.Charlie == item)
             {
                 return "Charlie";
             }
@@ -95,8 +95,8 @@ namespace TextInterpreter
                     {
                         return false;
                     }
-                case CommonEnums.Interactables.NPC:
-                    if (NPC.RoomLocation == location)
+                case CommonEnums.Interactables.Charlie:
+                    if (Charlie.RoomLocation == location)
                     {
                         return true;
                     }
@@ -142,8 +142,8 @@ namespace TextInterpreter
                 case CommonEnums.Interactables.Cup:
                     Size = (int)Cup.Size;
                     break;
-                case CommonEnums.Interactables.NPC:
-                    Size = (int)NPC.Size;
+                case CommonEnums.Interactables.Charlie:
+                    Size = (int)Charlie.Size;
                     break;
                 case CommonEnums.Interactables.Chair:
                     Size = (int)Chair.Size;
@@ -173,8 +173,8 @@ namespace TextInterpreter
                 case CommonEnums.Interactables.Cup:
                     ItemSize = (int)Cup.Size;
                     break;
-                case CommonEnums.Interactables.NPC:
-                    ItemSize = (int)NPC.Size;
+                case CommonEnums.Interactables.Charlie:
+                    ItemSize = (int)Charlie.Size;
                     break;
                 case CommonEnums.Interactables.Chair:
                     ItemSize = (int)Chair.Size;
@@ -195,8 +195,8 @@ namespace TextInterpreter
                 case CommonEnums.Interactables.Cup:
                     DestinationSize = (int)Cup.Size;
                     break;
-                case CommonEnums.Interactables.NPC:
-                    DestinationSize = (int)NPC.Size;
+                case CommonEnums.Interactables.Charlie:
+                    DestinationSize = (int)Charlie.Size;
                     break;
                 case CommonEnums.Interactables.Chair:
                     DestinationSize = (int)Chair.Size;
@@ -233,9 +233,9 @@ namespace TextInterpreter
                             Cup.ObjectLocation = destination;
                             Cup.RoomLocation = currentLocation;
                             break;
-                        case CommonEnums.Interactables.NPC:
-                            NPC.ObjectLocation = destination;
-                            NPC.RoomLocation = currentLocation;
+                        case CommonEnums.Interactables.Charlie:
+                            Charlie.ObjectLocation = destination;
+                            Charlie.RoomLocation = currentLocation;
                             break;
                         case CommonEnums.Interactables.Chair:
                             Chair.ObjectLocation = destination;
@@ -258,8 +258,8 @@ namespace TextInterpreter
                         case CommonEnums.Interactables.Cup:
                             Cup.Contains.Add(item);
                             break;
-                        case CommonEnums.Interactables.NPC:
-                            NPC.Contains.Add(item);
+                        case CommonEnums.Interactables.Charlie:
+                            Charlie.Contains.Add(item);
                             break;
                         case CommonEnums.Interactables.Chair:
                             Chair.Contains.Add(item);
@@ -308,10 +308,10 @@ namespace TextInterpreter
                         nestedObject = Cup.ObjectLocation;
                         Cup.ObjectLocation = CommonEnums.Interactables.None;
                         break;
-                    case CommonEnums.Interactables.NPC:
-                        NPC.RoomLocation = CommonEnums.LocationType.Inventory;
-                        nestedObject = NPC.ObjectLocation;
-                        NPC.ObjectLocation = CommonEnums.Interactables.None;
+                    case CommonEnums.Interactables.Charlie:
+                        Charlie.RoomLocation = CommonEnums.LocationType.Inventory;
+                        nestedObject = Charlie.ObjectLocation;
+                        Charlie.ObjectLocation = CommonEnums.Interactables.None;
                         break;
                     case CommonEnums.Interactables.Chair:
                         Chair.RoomLocation = CommonEnums.LocationType.Inventory;
@@ -335,8 +335,8 @@ namespace TextInterpreter
                     case CommonEnums.Interactables.Cup:
                         Cup.Contains.Remove(item);
                         break;
-                    case CommonEnums.Interactables.NPC:
-                        NPC.Contains.Remove(item);
+                    case CommonEnums.Interactables.Charlie:
+                        Charlie.Contains.Remove(item);
                         break;
                     case CommonEnums.Interactables.Chair:
                         Chair.Contains.Remove(item);
@@ -361,8 +361,8 @@ namespace TextInterpreter
                     case CommonEnums.Interactables.Cup:
                         Cup.RoomLocation = currentLocation;
                         break;
-                    case CommonEnums.Interactables.NPC:
-                        NPC.RoomLocation = currentLocation;
+                    case CommonEnums.Interactables.Charlie:
+                        Charlie.RoomLocation = currentLocation;
                         break;
                     case CommonEnums.Interactables.Chair:
                         Chair.RoomLocation = currentLocation;

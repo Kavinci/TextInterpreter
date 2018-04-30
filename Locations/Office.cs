@@ -14,7 +14,7 @@ namespace TextInterpreter.Locations
             Contains.Add(CommonEnums.Interactables.Chair);
             Contains.Add(CommonEnums.Interactables.Cup);
             Contains.Add(CommonEnums.Interactables.Desk);
-            Contains.Add(CommonEnums.Interactables.NPC);
+            Contains.Add(CommonEnums.Interactables.Charlie);
             Contains.Add(CommonEnums.Interactables.Note);
             Contains.Add(CommonEnums.Interactables.Pen);
             Pathways.Add(CommonEnums.Direction.West, CommonEnums.LocationType.Hallway);

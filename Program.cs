@@ -51,6 +51,35 @@ namespace TextInterpreter
                     GameLoop();
                 }
             }
+            else if(GameState.Get == CommonEnums.Controls.Dialog)
+            {
+                Screen.ReadToBuffer();
+                string response = GameManager.ContinueDialog(Screen.Input);
+                if(response == null)
+                {
+                    GameState.Set(CommonEnums.Controls.None);
+                    List<string> End = new List<string>();
+                    End.Add("c");
+                    Screen.WriteToBuffer(GameManager.ContinueDialog(End));
+                }
+                else
+                {
+                    Screen.WriteToBuffer(response);
+                }
+                if (GameState.Get == CommonEnums.Controls.Clear)
+                {
+                    Screen.Clear();
+                    GameState.Set(CommonEnums.Controls.Dialog);
+                    GameState.Increment();
+                    GameLoop();
+                }
+                else
+                {
+                    Screen.Render();
+                    GameState.Increment();
+                    GameLoop();
+                }
+            }
             Screen.Exit();
         }
     }

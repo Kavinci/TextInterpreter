@@ -91,5 +91,15 @@ namespace TextInterpreter.Interactions
             }
             return response;
         }
+        public CommonEnums.NPC Talk(CommonEnums.Interactables NPC)
+        {
+            switch (NPC)
+            {
+                case CommonEnums.Interactables.Charlie:
+                    return CommonEnums.NPC.Charlie;
+                default:
+                    return CommonEnums.NPC.None;
+            }
+        }
     }
 }

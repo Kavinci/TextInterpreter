@@ -9,13 +9,13 @@ namespace TextInterpreter
     public class InteractionsManager
     {
         private Actions Actions;
-        private Responses Response;
+        private ResponseManager Response;
         private Help Help;
         public InteractionsManager()
         {
             Actions = new Actions();
             Help = new Help();
-            Response = new Responses();
+            Response = new ResponseManager();
         }
         public string ProcessContext(Context Context)
         {
@@ -23,9 +23,9 @@ namespace TextInterpreter
             {
                 return Help.HelpMessage();
             }
-            else if(Context.Action == Common.CommonEnums.Actions.Dialog)
+            else if(Context.Action == Common.CommonEnums.Actions.Talk)
             {
-                return Response.Respond(Context.Dialog);
+                return Response.Respond(Context);
             }
             else if(Context.Action == Common.CommonEnums.Actions.Start)
             {
